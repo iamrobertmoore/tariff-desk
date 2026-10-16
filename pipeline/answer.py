@@ -142,8 +142,11 @@ def decide(text, code, need, context, hts, headings):
         if not c or c not in hts or c in cands: continue
         if c not in (best, code) and c[:2] not in keep_ch and counts[c] < 2: continue   # no pliers for a chopping board
         if int(c[:4]) in RAW and c != code: continue
+        if mats and c != code and materials.conflict(text, c)[0]: continue   # a wooden item gets no plastic or metal options
         cands.append(c)
     cands = cands[:5]
+    if not best and cands:   # the model's code isn't real and no material was named: lead with what the rulings used most
+        best, swapped = cands[0], True
     return {"kind": "code", "best": best, "model_code": code, "confident": confident, "backing": backing,
             "material_conflict": conf, "swapped": swapped, "hinted": hinted, "raw": raw, "materials": mats,
             "options": [] if confident else [{"code": c, "words": words(c, hts, headings), "duty": hts[c]["general"] or "see schedule"} for c in cands]}

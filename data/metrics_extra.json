@@ -1,0 +1,140 @@
+{
+ "unseen.base": {
+  "n": 353,
+  "exact": 0,
+  "d6": 2,
+  "d4": 27,
+  "valid": 5,
+  "duty": 0,
+  "asked": 199
+ },
+ "unseen.ft": {
+  "n": 353,
+  "exact": 30,
+  "d6": 51,
+  "d4": 101,
+  "valid": 252,
+  "duty": 97,
+  "asked": 0
+ },
+ "unseen.base_rag": {
+  "n": 353,
+  "exact": 91,
+  "d6": 133,
+  "d4": 184,
+  "valid": 345,
+  "duty": 191,
+  "asked": 0
+ },
+ "unseen.tuned": {
+  "n": 353,
+  "exact": 95,
+  "d6": 130,
+  "d4": 176,
+  "valid": 331,
+  "duty": 171,
+  "asked": 0
+ },
+ "unseen.big": {
+  "n": 353,
+  "exact": 117,
+  "d6": 176,
+  "d4": 226,
+  "valid": 319,
+  "duty": 202,
+  "asked": 7
+ },
+ "unseen.big_plain": {
+  "n": 353,
+  "exact": 31,
+  "d6": 110,
+  "d4": 155,
+  "valid": 161,
+  "duty": 86,
+  "asked": 64
+ },
+ "unseen.desk": {
+  "n": 353,
+  "exact": 100,
+  "d6": 133,
+  "d4": 174,
+  "valid": 352,
+  "duty": 173,
+  "asked": 1
+ },
+ "unseen.desk_conf": {
+  "n": 77,
+  "exact": 42,
+  "d4": 52,
+  "duty": 51
+ },
+ "makers.base": {
+  "n": 34,
+  "exact": 0,
+  "d6": 1,
+  "d4": 2,
+  "valid": 1,
+  "duty": 1,
+  "asked": 20
+ },
+ "makers.ft": {
+  "n": 34,
+  "exact": 2,
+  "d6": 7,
+  "d4": 10,
+  "valid": 25,
+  "duty": 7,
+  "asked": 0
+ },
+ "makers.base_rag": {
+  "n": 34,
+  "exact": 12,
+  "d6": 17,
+  "d4": 19,
+  "valid": 34,
+  "duty": 17,
+  "asked": 0
+ },
+ "makers.tuned": {
+  "n": 34,
+  "exact": 11,
+  "d6": 17,
+  "d4": 20,
+  "valid": 32,
+  "duty": 17,
+  "asked": 0
+ },
+ "makers.big": {
+  "n": 34,
+  "exact": 13,
+  "d6": 20,
+  "d4": 22,
+  "valid": 32,
+  "duty": 19,
+  "asked": 1
+ },
+ "makers.big_plain": {
+  "n": 34,
+  "exact": 6,
+  "d6": 13,
+  "d4": 20,
+  "valid": 20,
+  "duty": 11,
+  "asked": 3
+ },
+ "makers.desk": {
+  "n": 34,
+  "exact": 15,
+  "d6": 20,
+  "d4": 22,
+  "valid": 34,
+  "duty": 19,
+  "asked": 0
+ },
+ "makers.desk_conf": {
+  "n": 10,
+  "exact": 6,
+  "d4": 7,
+  "duty": 8
+ }
+}
