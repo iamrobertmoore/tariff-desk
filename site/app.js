@@ -187,6 +187,9 @@ $("#ask").addEventListener("submit", async (e) => {
   }
   spinning = false; await spin; await goodsP;
   const tv = verdictFor(res.tuned), bv = verdictFor(res.base);
+  if (res.tuned.need && res.base && res.base.code) {
+    bv.cls = "bad"; bv.text = `It guessed <b>${esc(res.base.code)}</b> for a description that doesn't say what the item is or what it's made of.`;
+  }
   const codeText = res.tuned.code ? res.tuned.code : "MORE DETAIL";
   await setText(mine.code, fmtCode(codeText), { stagger: 60 });
   mine.code.forEach((c) => c.color(tv.cls));

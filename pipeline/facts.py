@@ -54,6 +54,11 @@ def build(o):
         b = "strong" if n >= 3 else ("some" if n >= 1 else "none")
         cal[b][1] += 1; cal[b][0] += c == key[r["id"]]["key"]
     F["calibration"] = {b: {"right": v[0], "n": v[1]} for b, v in cal.items()}
+    tm = json.load(open(ROOT / "data/train_meta.json"))["counts"]
+    v1 = json.load(open(ROOT / "data/train_runs/ft-v1/meta.json"))
+    v1usd = [x for x in led["lines"] if x["what"].startswith("Fine-tune: ft-v1 ")][0]["usd"]
+    F["train"] = {**tm, "ruling_fmt": f"{tm['ruling']:,}", "listing_fmt": f"{tm['listing']:,}",
+                  "v1_minutes": round(v1["seconds"] / 60), "v1_usd": f"{v1usd:.2f}"}
     json.dump(F, open(ROOT / "data/facts.json", "w"), indent=1)
     print(json.dumps(flat(F), indent=0)[:3000])
 

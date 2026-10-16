@@ -33,7 +33,7 @@ Every answer below is marked against one of **353 binding rulings US Customs iss
 | Qwen3-8B, fine-tuned on Tinker | **30** | 51 | 252 | 15 |
 | Qwen3-8B, untrained, with past rulings | 91 | 133 | 345 | 0 |
 | **Tariff Desk: fine-tuned, with past rulings** | **95** | 130 | 331 | **13** |
-| Qwen3.5-397B (about 50 times bigger), with past rulings | 117 | 176 | 319 | 15 |
+| Qwen3.5-397B (about 50 times the parameters), with past rulings | 117 | 176 | 319 | 15 |
 
 What I take from it:
 

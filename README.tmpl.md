@@ -33,7 +33,7 @@ Every answer below is marked against one of **{{sets.unseen_n}} binding rulings 
 | Qwen3-8B, fine-tuned on Tinker | **{{runs.tuned_plain.unseen.exact}}** | {{runs.tuned_plain.unseen.d6}} | {{runs.tuned_plain.unseen.valid}} | {{runs.tuned_plain.adversarial.ask_pass}} |
 | Qwen3-8B, untrained, with past rulings | {{runs.base_rag.unseen.exact}} | {{runs.base_rag.unseen.d6}} | {{runs.base_rag.unseen.valid}} | {{runs.base_rag.adversarial.ask_pass}} |
 | **Tariff Desk: fine-tuned, with past rulings** | **{{runs.tuned.unseen.exact}}** | {{runs.tuned.unseen.d6}} | {{runs.tuned.unseen.valid}} | **{{runs.tuned.adversarial.ask_pass}}** |
-| Qwen3.5-397B (about 50 times bigger), with past rulings | {{runs.big.unseen.exact}} | {{runs.big.unseen.d6}} | {{runs.big.unseen.valid}} | {{runs.big.adversarial.ask_pass}} |
+| Qwen3.5-397B (about 50 times the parameters), with past rulings | {{runs.big.unseen.exact}} | {{runs.big.unseen.d6}} | {{runs.big.unseen.valid}} | {{runs.big.adversarial.ask_pass}} |
 
 What I take from it:
 
