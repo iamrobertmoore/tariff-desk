@@ -223,7 +223,7 @@ async function showResult(res) {
     $("#q").focus();
   } else if (A.confident) {
     $("#aTitle").textContent = "Your code";
-    $("#aSentence").innerHTML = `<b>${A.backing}</b> of the 12 most similar US Customs rulings used this code. Duty: <b>${esc(res.duty)}</b>.`;
+    $("#aSentence").innerHTML = `<b>${A.backing}</b> of the 12 most similar US Customs rulings used this code${A.example ? `, for example ${esc(A.example)}` : ""}. General duty rate: <b>${esc(res.duty)}</b> (extra tariffs not included).`;
     await setText(tunedCells, fmtCode(A.best), { stagger: 50 }); tunedCells.forEach((c) => c.color("ok"));
     fillLabel(res.text, A.best, res.duty, res.words, "Ready", false);
   } else {
@@ -234,12 +234,14 @@ async function showResult(res) {
       raw: `It first picked ${mfirst}, a line for raw or unworked material, so this is the schedule's line for finished things made of ${mats}.`,
       unbacked: `No similar US Customs ruling used the code it first picked (${mfirst}), so this is the schedule's line for things made of ${mats}.`,
       species: `It first picked ${mfirst}, the line for a different kind of wood, so this is the same line for the wood you named.`,
-      heading: `The schedule's heading for this kind of item covers it whatever it's made of, so this line comes ahead of the model's first pick (${mfirst}).`,
+      heading: `The schedule has a heading written for exactly this kind of item, so its line comes ahead of the model's first pick (${mfirst}).`,
+      set: `This sounds like a set of different things. US Customs classifies a retail set by the item that gives it its main character, so check this code fits the whole set, not just one piece.`,
+      adult: `It first picked a line for children's toys, but your description says it's for adults, so this is the toy line for everyone else.`,
       invalid: mfirst ? `The code it first picked (${mfirst}) isn't in the US schedule, so this is the closest real line.` : "This is the closest real line in the US schedule.",
     };
     const why = WHY[A.reason] || (A.swapped && A.material_conflict ? WHY.conflict : A.swapped ? WHY.unbacked
       : A.backing ? `Only ${A.backing} of the 12 most similar US Customs rulings used this code.` : "None of the 12 most similar US Customs rulings used this code.");
-    $("#aSentence").innerHTML = why;
+    $("#aSentence").innerHTML = why + (A.example ? ` A past ruling that used this code: ${esc(A.example)}.` : "");
     await setText(tunedCells, fmtCode(A.best || ""), { stagger: 50 }); tunedCells.forEach((c) => c.color("warn"));
     const first = A.options[0] || {};
     fillLabel(res.text, A.best, first.duty, first.words, "Check it", true);

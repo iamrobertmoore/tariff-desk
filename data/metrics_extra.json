@@ -63,10 +63,10 @@
   "asked": 1
  },
  "unseen.desk_conf": {
-  "n": 77,
-  "exact": 42,
-  "d4": 52,
-  "duty": 51
+  "n": 71,
+  "exact": 39,
+  "d4": 46,
+  "duty": 47
  },
  "makers.base": {
   "n": 34,
@@ -132,7 +132,7 @@
   "asked": 0
  },
  "makers.desk_conf": {
-  "n": 10,
+  "n": 9,
   "exact": 6,
   "d4": 7,
   "duty": 8

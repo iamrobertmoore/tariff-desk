@@ -14,8 +14,8 @@ def words(code, hts, headings):
     e = hts.get(code)
     if not e: return None
     segs = [x for x in e["path"] if x and x != "Other"]
-    head = re.split(r"[;:]", headings.get(code[:4]) or (segs[0] if segs else ""))[0].strip()
-    head = head[:70] + ("..." if len(head) > 70 else "")
+    head = re.split(r":", headings.get(code[:4]) or (segs[0] if segs else ""))[0].strip()
+    if len(head) > 110: head = head[:110].rsplit(" ", 1)[0] + "..."
     tail = segs[-1] if len(segs) > 1 else ""
     tail = re.sub(r"\s*\(\d+\)$", "", tail)
     if tail and tail.lower()[:30] not in head.lower():
@@ -36,6 +36,9 @@ HINTS = [
      ["4201.00.6000"]),
     (r"\b(dog|dogs|puppy|cat|pet)s?\b.*\b(collar|lead|leash|harness|muzzle)s?\b|\b(collar|lead|leash|harness|muzzle)s?\b.*\b(dog|puppy|pet)s?\b",
      ["4201.00.3000"]),
+    # 6308: "needlecraft sets consisting of woven fabric and yarn ... put up in packings for retail sale"
+    (r"\b(embroidery|cross[- ]stitch|needlepoint|tapestry|needlecraft)\b.*\bkits?\b.*\bwool\b|\bwool\b.*\b(embroidery|cross[- ]stitch|needlepoint|tapestry|needlecraft)\b.*\bkits?\b", ["6308.00.0010", "6308.00.0020"]),
+    (r"\b(embroidery|cross[- ]stitch|needlepoint|tapestry|needlecraft)\b.*\b(kits?|sets?)\b|\b(kits?|sets?)\b.*\b(embroidery|cross[- ]stitch|needlepoint|tapestry|needlecraft)\b", ["6308.00.0020", "6308.00.0010"]),
     (r"^(\S+\s+){0,5}toys?\b(?!\s+(storage|box|boxes|bin|bins|chest|basket|bag|organi[sz]er|shelf|hammock))", ["9503.00.0073", "9503.00.0071"]),
     # 4909: "printed cards bearing personal greetings, messages or announcements ... with or without envelopes"
     (r"\b(greeting|greetings|birthday|christmas|xmas|wedding|anniversary|thank you|sympathy|valentine'?s?|mother'?s day|father'?s day|congratulations|new baby)\s+cards?\b",
@@ -94,6 +97,11 @@ def _chapter_line(text, chapter, hts):
         if c[:2] == chapter and int(c[:4]) not in RAW: return c
     return None
 
+# A retail set of different things (candle plus holder, a gift box) is classified by the item that gives the set
+# its essential character (General Rule of Interpretation 3(b)), so the page never calls a set "confident".
+MIXED_SET = r"\b(gift set|gift box|hamper|bundle|sold together|together with|comes with|kit|and (a|an|one|two) ([a-z-]+ ){0,3}(holder|stand|dish|tray|mug|cup|pouch|bag|box|tin|saucer|plate|vase))\b"
+CHILD_AGES = {"9503.00.0011", "9503.00.0013", "9503.00.0071", "9503.00.0073"}
+
 PRECIOUS = r"\b(silver|sterling|gold|platinum|vermeil|gold[- ]filled|gold[- ]plated)\b"
 ABOUT_MATERIAL = r"\b(material|materials|composition|made of|fib(er|re)s?|alloy|content|fabric)\b"
 
@@ -129,11 +137,19 @@ def decide(text, code, need, context, hts, headings):
     hint_alts = []
     for pat, codes in HINTS:
         if codes[0].startswith("9503") and code and (code[:2] == "95" or backing >= 3): continue
-        if re.search(pat, text.lower()) and not (best and best[:4] == codes[0][:4]):
+        # a hint moves the answer unless it's already on one of the hinted lines (for toys: anywhere in heading 9503)
+        already = best and (best[:4] == codes[0][:4] if codes[0].startswith("9503") else best in codes)
+        if re.search(pat, text.lower()) and not already:
             hint_alts = [c for c in codes if c in hts]
             if hint_alts: best, hinted, reason = hint_alts[0], True, "heading"
             break
-    confident = bool(best) and best == code and not conf and not raw and backing >= 3
+    if best in CHILD_AGES and re.search(r"\badults?\b", text.lower()) and "9503.00.0090" in hts:
+        best, swapped, reason = "9503.00.0090", True, "adult"
+    is_set = bool(re.search(MIXED_SET, text.lower()))
+    confident = bool(best) and best == code and not conf and not raw and backing >= 3 and not is_set
+    if is_set and not reason: reason = "set"
+    example = next((d.strip() for d, c in re.findall(r"^- (.+?) -> (\d{4}\.\d{2}\.\d{4})$", context.split("Schedule wording")[0], re.M) if c == best), None)
+    if example and len(example) > 120: example = example[:117].rsplit(" ", 1)[0] + "..."
     counts = collections.Counter(prec)
     keep_ch = {c[:2] for c in (best, code) if c} | {f"{ch:02d}" for m in mats for ch in materials.MATERIALS[m][1]} \
               | {c[:2] for c in hint_alts}
@@ -149,6 +165,6 @@ def decide(text, code, need, context, hts, headings):
     cands = cands[:5]
     if not best and cands:   # the model's code isn't real and no material was named: lead with what the rulings used most
         best, swapped, reason = cands[0], True, "invalid"
-    return {"kind": "code", "reason": reason, "best": best, "model_code": code, "confident": confident, "backing": backing,
+    return {"kind": "code", "reason": reason, "example": example, "is_set": is_set, "best": best, "model_code": code, "confident": confident, "backing": backing,
             "material_conflict": conf, "swapped": swapped, "hinted": hinted, "raw": raw, "materials": mats,
             "options": [] if confident else [{"code": c, "words": words(c, hts, headings), "duty": hts[c]["general"] or "see schedule"} for c in cands]}
