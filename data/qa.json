@@ -1,3 +1,1 @@
-{"holdout_n": 26, "holdout_coded": 25, "holdout_old_best": 14, "holdout_first_best": 18, "holdout_best": 22,
- "holdout_old_shown": 22, "holdout_shown": 25, "unseen_old_best": 96, "makers_old_best": 12, "makers_best": 15,
- "makers_old_shown": 15, "makers_shown": 18, "tuned_n": 34}
+{"holdout_n": 26, "holdout_coded": 26, "holdout_old_best": 14, "holdout_first_best": 18, "holdout_best": 23, "holdout_old_shown": 22, "holdout_shown": 26, "unseen_old_best": 96, "makers_old_best": 12, "makers_best": 15, "makers_old_shown": 15, "makers_shown": 18, "tuned_n": 34}

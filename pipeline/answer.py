@@ -94,6 +94,15 @@ def _chapter_line(text, chapter, hts):
         if c[:2] == chapter and int(c[:4]) not in RAW: return c
     return None
 
+PRECIOUS = r"\b(silver|sterling|gold|platinum|vermeil|gold[- ]filled|gold[- ]plated)\b"
+ABOUT_MATERIAL = r"\b(material|materials|composition|made of|fib(er|re)s?|alloy|content|fabric)\b"
+
+def needs_code_anyway(text, need):
+    """The model asked what the thing is made of, but the seller already said ("sterling silver",
+    "concrete"). Then the question is no help, and the page asks the model again for its best code."""
+    if not need or not re.search(ABOUT_MATERIAL, need.lower()): return False
+    return bool(materials.materials(text) or re.search(PRECIOUS, text.lower()))
+
 def decide(text, code, need, context, hts, headings):
     prec = re.findall(r"-> (\d{4}\.\d{2}\.\d{4})", context.split("Schedule wording")[0])
     if need and not code:

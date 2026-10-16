@@ -30,10 +30,10 @@ SYSTEM = CONFIG["system"]
 CODE_RE = re.compile(r"HTS US Code\s*->\s*(\d{4})\.?(\d{2})\.?(\d{2})\.?(\d{2})")
 ANY_RE = re.compile(r"\b(\d{4})\.(\d{2})\.(\d{2})\.?(\d{2})\b")
 
-def prompt(text, context):
+def prompt(text, context, prefill=""):
     q = f"What is the HTS US Code for this product? {text}"
     return (f"<|im_start|>system\n{SYSTEM}<|im_end|>\n<|im_start|>user\n{context}\n\n{q}<|im_end|>\n"
-            f"<|im_start|>assistant\n<think>\n\n</think>\n\n")
+            f"<|im_start|>assistant\n<think>\n\n</think>\n\n{prefill}")
 
 def parse(t):
     m = CODE_RE.search(t) or ANY_RE.search(t)
@@ -54,14 +54,14 @@ def check(code):
     return {"valid": True, "path": e["path"], "duty": e["general"] or "see schedule",
             "chapter": code[:2], "heading": HEADINGS.get(code[:4])}
 
-async def ask(client, model, text, context):
+async def ask(client, model, text, context, prefill=""):
     t0 = time.time()
     # The reply starts with "HTS US Code -> ..." or "Need -> ...", and the page only uses that first line, so
     # stop at the first newline instead of generating the reasoning: same answer, about a third of the wait.
     r = await client.post(TINKER, headers={"Authorization": f"Bearer {KEY}"}, json={
-        "model": model, "prompt": prompt(text, context), "max_tokens": 80, "temperature": 0, "stop": ["<|im_end|>", "\n"]}, timeout=45)
+        "model": model, "prompt": prompt(text, context, prefill), "max_tokens": 80, "temperature": 0, "stop": ["<|im_end|>", "\n"]}, timeout=45)
     r.raise_for_status()
-    out = r.json()["choices"][0]["text"].strip()
+    out = (prefill + r.json()["choices"][0]["text"]).strip()
     code, need, reasoning = parse(out)
     return {"code": code, "need": need, "reasoning": reasoning, "check": check(code), "ms": int((time.time() - t0) * 1000)}
 
@@ -113,6 +113,15 @@ async def classify(req: Request):
         tuned, base = await asyncio.gather(ask(c, CONFIG["tuned"], text, context), ask(c, CONFIG["base"], text, context), return_exceptions=True)
     if isinstance(tuned, Exception): raise HTTPException(502, "The model didn't answer. Try again in a moment.")
     if isinstance(base, Exception): base = None
+    # It asked what the thing is made of, but the seller already said: ask again, starting its reply with the
+    # code line, so it gives its best code and the page shows a pick-one list instead of a pointless question.
+    if tuned.get("need") and answer.needs_code_anyway(text, tuned["need"]):
+        async with httpx.AsyncClient() as c:
+            try:
+                again = await ask(c, CONFIG["tuned"], text, context, prefill="HTS US Code ->")
+                if again.get("code"): tuned = dict(again, asked_first=tuned["need"])
+            except Exception:
+                pass
     all_prec = [l[2:].rsplit(" -> ", 1) for l in context.split("\n") if l.startswith("- ") and " -> " in l]
     prec = all_prec[:5]
     # How many of the 12 similar past rulings used the same code. Measured on the unseen set:
