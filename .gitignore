@@ -1,0 +1,10 @@
+.tinker-key
+.env
+__pycache__/
+*.pyc
+data/raw/
+data/train.jsonl
+data/atlas_train_valid.json
+data/hts_index.json
+data/hts_headings.json
+.DS_Store

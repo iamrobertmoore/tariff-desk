@@ -1,0 +1,81 @@
+{
+ "lines": [
+  {
+   "what": "Writing the unseen-set questions",
+   "model": "Qwen/Qwen3.5-397B-A17B",
+   "usd": 0.9016
+  },
+  {
+   "what": "Training data: listing examples",
+   "model": "Qwen/Qwen3.6-35B-A3B",
+   "usd": 0.2223
+  },
+  {
+   "what": "Training data: ask examples",
+   "model": "Qwen/Qwen3.6-35B-A3B",
+   "usd": 0.0584
+  },
+  {
+   "what": "Evaluation: base-qwen3-8b",
+   "model": "Qwen/Qwen3-8B",
+   "usd": 0.0593
+  },
+  {
+   "what": "Evaluation: base-qwen3-8b-rag",
+   "model": "Qwen/Qwen3-8B",
+   "usd": 0.1214
+  },
+  {
+   "what": "Evaluation: big-qwen3.5-397b",
+   "model": "Qwen/Qwen3.5-397B-A17B",
+   "usd": 0.6923
+  },
+  {
+   "what": "Evaluation: big-qwen3.5-397b-rag",
+   "model": "Qwen/Qwen3.5-397B-A17B",
+   "usd": 1.2121
+  },
+  {
+   "what": "Evaluation: ft-v1",
+   "model": "Qwen/Qwen3-8B",
+   "usd": 0.103
+  },
+  {
+   "what": "Evaluation: ft-v1-s150",
+   "model": "Qwen/Qwen3-8B",
+   "usd": 0.07
+  },
+  {
+   "what": "Evaluation: ft-v2-lean",
+   "model": "Qwen/Qwen3-8B",
+   "usd": 0.1474
+  },
+  {
+   "what": "Fine-tune: ft-v1 (16,419,962 tokens, 616 of 616 steps)",
+   "model": "Qwen/Qwen3-8B",
+   "usd": 7.2248
+  },
+  {
+   "what": "Fine-tune: ft-v2-lean (6,592,907 tokens, 156 of 156 steps)",
+   "model": "Qwen/Qwen3-8B",
+   "usd": 2.9009
+  },
+  {
+   "what": "Fine-tune: ft-v2-rag, full set (stopped when the promo credit ran out: 2,246,233 tokens, 26 of 308 steps)",
+   "model": "Qwen/Qwen3-8B",
+   "usd": 0.9883
+  }
+ ],
+ "total_usd": 14.7,
+ "per_code_usd": 0.00036935808781869684,
+ "per_code_tokens": [
+  1122,
+  251
+ ],
+ "codes_per_dollar": 2707,
+ "per_code_by_run": {
+  "big-qwen3.5-397b-rag": 0.0030330611898016996,
+  "base-qwen3-8b-rag": 0.0003000351416430595,
+  "ft-v2-lean": 0.00036935808781869684
+ }
+}

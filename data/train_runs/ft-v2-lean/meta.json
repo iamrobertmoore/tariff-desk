@@ -1,0 +1,36 @@
+{
+ "args": {
+  "name": "ft-v2-lean",
+  "base_model": "Qwen/Qwen3-8B",
+  "epochs": 1.0,
+  "lr": 0.0003,
+  "batch": 32,
+  "rank": 32,
+  "save_every": 50,
+  "data": "data/train_rag_lean.jsonl",
+  "rag": true,
+  "max_usd": 3.0
+ },
+ "examples": 5000,
+ "tokens_per_epoch": 6603972,
+ "trained_tokens": 6592907,
+ "checkpoints": [
+  {
+   "step": 50,
+   "path": "tinker://113e2379-74ba-5b4b-a23b-86d67752cc3c:train:0/sampler_weights/ft-v2-lean-step0050"
+  },
+  {
+   "step": 100,
+   "path": "tinker://113e2379-74ba-5b4b-a23b-86d67752cc3c:train:0/sampler_weights/ft-v2-lean-step0100"
+  },
+  {
+   "step": 150,
+   "path": "tinker://113e2379-74ba-5b4b-a23b-86d67752cc3c:train:0/sampler_weights/ft-v2-lean-step0150"
+  },
+  {
+   "step": 156,
+   "path": "tinker://113e2379-74ba-5b4b-a23b-86d67752cc3c:train:0/sampler_weights/ft-v2-lean-final"
+  }
+ ],
+ "seconds": 448
+}

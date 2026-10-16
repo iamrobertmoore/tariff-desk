@@ -1,0 +1,387 @@
+{
+ "wooden curtain pole 28mm oak 2 4m long sold with two wooden brackets and ball finials": {
+  "text": "Wooden curtain pole, 28mm oak, 2.4m long, sold with two wooden brackets and ball finials.",
+  "tuned": {
+   "code": "3925.90.0000",
+   "need": null,
+   "reasoning": "The product in question is a wooden curtain pole made of oak, measuring 28mm in diameter and 2.4 meters in length. It is designed to be mounted on a wall and is sold with two wooden brackets and ball finials. The classification process follows the General Rules of Interpretation (GRI) of the Harmonized Tariff Schedule of the United States (HTSUS). \n\nInitially, the product was suggested to be classified under HTSUS 4404.20.0080, which pertains to nonconiferous wood poles. However, the ruling determined that the curtain pole is not a finished article but rather a component that requires further processing (such as cutting to length and drilling holes) before it can be used as a finished curtain pole. Therefore, it does not meet the criteria for classification under GRI 1(a), which requires the product to be in a condition ready for sale.\n\nInstead, the curtain pole is classified under HTSUS 3925.90.0000, which covers builders' ware of plastics, not elsewhere specified or included. This classification is appropriate because the curtain pole is a wooden item that is not specifically categorized under other headings and is intended for use in construction or home improvement. The applicable duty rate for this classification is 3.1 percent ad valorem",
+   "check": {
+    "valid": true,
+    "path": [
+     "Builders' ware of plastics, not elsewhere specified or included",
+     "Other"
+    ],
+    "duty": "5.3%",
+    "chapter": "39",
+    "heading": "Builders' ware of plastics, not elsewhere specified or included:"
+   },
+   "ms": 18028,
+   "backing": 2,
+   "band": "some"
+  },
+  "base": {
+   "code": "4407.91.0063",
+   "need": null,
+   "reasoning": "The product is described as a wooden curtain pole made of oak, which falls under the HTSUS schedule wording for wood sawn or chipped lengthwise, sliced or peeled, of a thickness exceeding 6 mm, of oak (Quercus spp.). The brackets and finials are additional components, but the primary item is the wooden curtain pole, which matches the description for 4407.91.0063.",
+   "check": {
+    "valid": true,
+    "path": [
+     "Wood sawn or chipped lengthwise, sliced or peeled, whether or not planed, sanded or end-jointed, of a thickness exceeding 6 mm",
+     "Other",
+     "Of oak (Quercus spp.)",
+     "Other"
+    ],
+    "duty": "Free",
+    "chapter": "44",
+    "heading": "Wood sawn or chipped lengthwise, sliced or peeled, whether or not planed, sanded or end-jointed, of a thickness exceeding 6 mm:"
+   },
+   "ms": 5563
+  },
+  "precedents": [
+   [
+    "a flag pole finial",
+    "8306.29.0000"
+   ],
+   [
+    "curtain rod finials",
+    "8302.41.6050"
+   ],
+   [
+    "plastic curtain tie backs and finials",
+    "3925.90.0000"
+   ],
+   [
+    "finials",
+    "8302.41.6050"
+   ],
+   [
+    "an adjustable flag pole holder/bracket",
+    "3925.90.0000"
+   ]
+  ],
+  "model": {
+   "tuned": "Qwen3-8B + LoRA (ft-v2-lean)",
+   "base": "Qwen/Qwen3-8B"
+  }
+ },
+ "hand poured soy wax candle in a reused glass jar 200g lavender scent cotton wick": {
+  "text": "Hand-poured soy wax candle in a reused glass jar, 200g, lavender scent, cotton wick.",
+  "tuned": {
+   "code": "3406.00.0000",
+   "need": null,
+   "reasoning": "The product in question is a candle made from soy wax, which is classified under the Harmonized Tariff Schedule (HTS) code 3406.00.0000. This classification is appropriate because the HTS code specifically covers candles, tapers, and similar items. The ruling indicates that the candle is hand-poured into a reused glass jar, which aligns with the description of candles in this category. Additionally, the ruling confirms that the applicable duty rate for this classification is 5.7 percent ad valorem, further supporting the classification under HTS code 3406.00.0000.",
+   "check": {
+    "valid": true,
+    "path": [
+     "Candles, tapers and the like"
+    ],
+    "duty": "Free",
+    "chapter": "34",
+    "heading": null
+   },
+   "ms": 7669,
+   "backing": 12,
+   "band": "strong"
+  },
+  "base": {
+   "code": "3406.00.0000",
+   "need": null,
+   "reasoning": "The product is a hand-poured soy wax candle in a reused glass jar, which falls under the category of candles, tapers and the like. The description matches the precedent rulings for similar items classified under 3406.00.0000.",
+   "check": {
+    "valid": true,
+    "path": [
+     "Candles, tapers and the like"
+    ],
+    "duty": "Free",
+    "chapter": "34",
+    "heading": null
+   },
+   "ms": 5160
+  },
+  "precedents": [
+   [
+    "a wax candle poured in a glass jar with shade",
+    "3406.00.0000"
+   ],
+   [
+    "Candle Poured in Jar",
+    "3406.00.0000"
+   ],
+   [
+    "a soy wax candle",
+    "3406.00.0000"
+   ],
+   [
+    "a \"Glass Jar With a Lid Filled With Poured Wax\"",
+    "3406.00.0000"
+   ],
+   [
+    "wax chips and candle wicks",
+    "3406.00.0000"
+   ]
+  ],
+  "model": {
+   "tuned": "Qwen3-8B + LoRA (ft-v2-lean)",
+   "base": "Qwen/Qwen3-8B"
+  }
+ },
+ "handmade polymer clay earrings on gold plated stainless steel hooks": {
+  "text": "Handmade polymer clay earrings on gold-plated stainless steel hooks.",
+  "tuned": {
+   "code": "7117.19.9000",
+   "need": null,
+   "reasoning": "The product in question consists of earrings made from polymer clay, which is classified as imitation jewelry. The earrings are mounted on gold-plated stainless steel hooks, which are considered parts of the jewelry. According to the Harmonized Tariff Schedule of the United States (HTSUS), the applicable subheading for these items is 7117.19.9000. This classification is appropriate because it covers \"other imitation jewelry of base metal, whether or not plated with precious metal.\" The ruling confirms that the earrings are classified under this subheading, and the duty rate is set at 1 cent each plus 5.8% ad valorem. Additionally, the ruling specifies that the items fall under textile category designation 86, which is relevant for products imported from China, subject to quota and visa requirements.",
+   "check": {
+    "valid": true,
+    "path": [
+     "Imitation jewelry",
+     "Of base metal, whether or not plated with precious metal",
+     "Other",
+     "Other",
+     "Other"
+    ],
+    "duty": "11%",
+    "chapter": "71",
+    "heading": "Imitation jewelry:"
+   },
+   "ms": 8615,
+   "backing": 1,
+   "band": "some"
+  },
+  "base": {
+   "code": "7113.19.5030",
+   "need": null,
+   "reasoning": "The product is handmade polymer clay earrings on gold-plated stainless steel hooks. The HTSUS code 7113.19.5030 is for earrings of other precious metal, whether or not plated or clad with precious metal. The earrings are made of polymer clay, which is a type of other precious metal, and the gold-plated stainless steel hooks are considered part of the earrings. This classification aligns with the precedent set by the ruling for similar goods.",
+   "check": {
+    "valid": true,
+    "path": [
+     "Articles of jewelry and parts thereof, of precious metal or of metal clad with precious metal",
+     "Of precious metal whether or not plated or clad with precious metal",
+     "Of other precious metal, whether or not plated or clad with precious metal",
+     "Other",
+     "Other",
+     "Of ISO standard platinum",
+     "Earrings"
+    ],
+    "duty": "5.5%",
+    "chapter": "71",
+    "heading": "Articles of jewelry and parts thereof, of precious metal or of metal clad with precious metal:"
+   },
+   "ms": 5363
+  },
+  "precedents": [
+   [
+    "stainless steel hooks",
+    "8302.50.0000"
+   ],
+   [
+    "a gold-plated screen for a fireplace insert made of steel",
+    "7321.90.6090"
+   ],
+   [
+    "silver plated stainless steel flatware",
+    "8215.99.4030"
+   ],
+   [
+    "silver plated stainless steel forks",
+    "8215.91.3000"
+   ],
+   [
+    "a silver-plated serving tray with gold-plated handles",
+    "7323.99.1000"
+   ]
+  ],
+  "model": {
+   "tuned": "Qwen3-8B + LoRA (ft-v2-lean)",
+   "base": "Qwen/Qwen3-8B"
+  }
+ },
+ "hand knitted scarf 100 merino wool": {
+  "text": "Hand-knitted scarf, 100% merino wool.",
+  "tuned": {
+   "code": "6117.10.1000",
+   "need": null,
+   "reasoning": "The product in question is a hand-knitted scarf made entirely of 100% merino wool. According to the Harmonized Tariff Schedule of the United States (HTSUS), the applicable subheading for this type of product is 6117.10.1000. This classification is specifically for knitted or crocheted parts of garments or clothing accessories, including shawls, scarves, mufflers, mantillas, veils, and similar items, made of wool or fine animal hair. The ruling confirms that the scarf is classified under this subheading, which is consistent with the material composition and the nature of the product as a knitted accessory. The duty rate for this classification is 16.5% ad valorem, and it falls under textile category designation 459, which is relevant for products imported from Hong Kong, subject to quota and visa requirements.",
+   "check": {
+    "valid": true,
+    "path": [
+     "Other made up clothing accessories, knitted or crocheted; knitted or crocheted parts of garments or of clothing accessories",
+     "Shawls, scarves, mufflers, mantillas, veils and the like",
+     "Of wool or fine animal hair (459)"
+    ],
+    "duty": "9.6%",
+    "chapter": "61",
+    "heading": "Other made up clothing accessories, knitted or crocheted; knitted or crocheted parts of garments or of clothing accessories:"
+   },
+   "ms": 11766,
+   "backing": 1,
+   "band": "some"
+  },
+  "base": {
+   "code": "6214.20.0000",
+   "need": null,
+   "reasoning": "The product is a hand-knitted scarf made of 100% merino wool. The HTSUS code 6214.20.0000 is specifically for shawls, scarves, mufflers, mantillas, veils, and the like made of wool or fine animal hair, which matches the description.",
+   "check": {
+    "valid": true,
+    "path": [
+     "Shawls, scarves, mufflers, mantillas, veils and the like",
+     "Of wool or fine animal hair (459)"
+    ],
+    "duty": "6.7%",
+    "chapter": "62",
+    "heading": "Shawls, scarves, mufflers, mantillas, veils and the like:"
+   },
+   "ms": 5343
+  },
+  "precedents": [
+   [
+    "a women100% merino wool knitted dress",
+    "6104.41.0010"
+   ],
+   [
+    "a women's sleeveless poncho made of 100% merino wool",
+    "6102.10.0000"
+   ],
+   [
+    "a women's 100% merino wool knit coat",
+    "6102.10.0000"
+   ],
+   [
+    "a woman's 100% wool woven scarf",
+    "6214.20.0000"
+   ],
+   [
+    "a knitted scarf",
+    "6117.10.1000"
+   ]
+  ],
+  "model": {
+   "tuned": "Qwen3-8B + LoRA (ft-v2-lean)",
+   "base": "Qwen/Qwen3-8B"
+  }
+ },
+ "linen cushion cover 45 x 45 cm envelope back insert not included": {
+  "text": "Linen cushion cover, 45 x 45 cm, envelope back, insert not included.",
+  "tuned": {
+   "code": "6304.92.0000",
+   "need": null,
+   "reasoning": "The product in question is a linen cushion cover that measures 45 x 45 cm and features an envelope back. According to the Harmonized Tariff Schedule of the United States (HTSUS), the applicable subheading for this type of product is 6304.92.0000. This classification is specifically for \"other furnishing articles, excluding those of heading 9404, not knitted or crocheted, of cotton.\" The cushion cover is made of linen, which is a type of cotton fabric, and it does not include an insert, which aligns with the description provided in the HTSUS. The duty rate for this classification is 16.5 percent ad valorem, confirming its categorization under the specified HTS code.",
+   "check": {
+    "valid": true,
+    "path": [
+     "Other furnishing articles, excluding those of heading 9404",
+     "Other",
+     "Not knitted or crocheted, of cotton (369)"
+    ],
+    "duty": "6.3%",
+    "chapter": "63",
+    "heading": "Other furnishing articles, excluding those of heading 9404:"
+   },
+   "ms": 10590,
+   "backing": 3,
+   "band": "strong"
+  },
+  "base": {
+   "code": "6304.99.6040",
+   "need": null,
+   "reasoning": "The product is a cushion cover made of linen, which is a textile material. Since it is not knitted or crocheted and falls under \"other furnishing articles, excluding those of heading 9404,\" it is classified under 6304.99.6040. The dimensions (45 x 45 cm) and the envelope back are not relevant to the classification as they do not affect the HTSUS code.",
+   "check": {
+    "valid": true,
+    "path": [
+     "Other furnishing articles, excluding those of heading 9404",
+     "Other",
+     "Not knitted or crocheted, of other textile materials",
+     "Other",
+     "Other",
+     "Other",
+     "Other (899)"
+    ],
+    "duty": "3.2%",
+    "chapter": "63",
+    "heading": "Other furnishing articles, excluding those of heading 9404:"
+   },
+   "ms": 6646
+  },
+  "precedents": [
+   [
+    "back support cushions",
+    "9404.90.2000"
+   ],
+   [
+    "an inflatable back cushion",
+    "3926.90.7500"
+   ],
+   [
+    "a seat and back cushion",
+    "9404.90.2000"
+   ],
+   [
+    "a back support cushion",
+    "9404.90.2000"
+   ],
+   [
+    "cushion covers",
+    "6304.92.0000"
+   ]
+  ],
+  "model": {
+   "tuned": "Qwen3-8B + LoRA (ft-v2-lean)",
+   "base": "Qwen/Qwen3-8B"
+  }
+ },
+ "handmade gift for her boho style perfect for birthdays": {
+  "text": "Handmade gift for her, boho style, perfect for birthdays.",
+  "tuned": {
+   "code": null,
+   "need": "What is the specific material composition and primary function of this item?",
+   "reasoning": null,
+   "check": {
+    "valid": false
+   },
+   "ms": 1550
+  },
+  "base": {
+   "code": "9505.90.2000",
+   "need": null,
+   "reasoning": "The product description \"Handmade gift for her, boho style, perfect for birthdays\" is similar to the past ruling for \"Practical Jokes To Play On Her\" which was classified under 9505.90.2000. This code is for magic tricks and practical joke articles, which includes items that are handmade and intended for gift-giving, especially for occasions like birthdays. The boho style and handmade aspect align with the description of items in this category.",
+   "check": {
+    "valid": true,
+    "path": [
+     "Festive, carnival or other entertainment articles, including magic tricks and practical joke articles; parts and accessories thereof",
+     "Other",
+     "Magic tricks and practical joke articles; parts and accessories thereof"
+    ],
+    "duty": "Free",
+    "chapter": "95",
+    "heading": "Festive, carnival or other entertainment articles, including magic tricks and practical joke articles; parts and accessories thereof:"
+   },
+   "ms": 6727
+  },
+  "precedents": [
+   [
+    "paperboard birthday gift card holders",
+    "4819.50.4060"
+   ],
+   [
+    "handmade paper",
+    "4802.10.0000"
+   ],
+   [
+    "Birthday Candles",
+    "3406.00.0000"
+   ],
+   [
+    "birthday sash",
+    "3926.20.9050"
+   ],
+   [
+    "a birthday sign",
+    "9505.90.4000"
+   ]
+  ],
+  "model": {
+   "tuned": "Qwen3-8B + LoRA (ft-v2-lean)",
+   "base": "Qwen/Qwen3-8B"
+  }
+ }
+}

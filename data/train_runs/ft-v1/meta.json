@@ -1,0 +1,37 @@
+{
+ "args": {
+  "name": "ft-v1",
+  "base_model": "Qwen/Qwen3-8B",
+  "epochs": 2.0,
+  "lr": 0.0003,
+  "batch": 64,
+  "rank": 32,
+  "save_every": 150
+ },
+ "examples": 19740,
+ "tokens_per_epoch": 8221524,
+ "trained_tokens": 16419962,
+ "checkpoints": [
+  {
+   "step": 150,
+   "path": "tinker://6f04bd15-3726-520c-af5b-66baeb2b07c5:train:0/sampler_weights/ft-v1-step0150"
+  },
+  {
+   "step": 300,
+   "path": "tinker://6f04bd15-3726-520c-af5b-66baeb2b07c5:train:0/sampler_weights/ft-v1-step0300"
+  },
+  {
+   "step": 450,
+   "path": "tinker://6f04bd15-3726-520c-af5b-66baeb2b07c5:train:0/sampler_weights/ft-v1-step0450"
+  },
+  {
+   "step": 600,
+   "path": "tinker://6f04bd15-3726-520c-af5b-66baeb2b07c5:train:0/sampler_weights/ft-v1-step0600"
+  },
+  {
+   "step": 616,
+   "path": "tinker://6f04bd15-3726-520c-af5b-66baeb2b07c5:train:0/sampler_weights/ft-v1-final"
+  }
+ ],
+ "seconds": 1909
+}

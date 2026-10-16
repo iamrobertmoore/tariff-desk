@@ -1,0 +1,32 @@
+{
+ "name": "base-qwen3-8b",
+ "base_model": "Qwen/Qwen3-8B",
+ "model_path": null,
+ "started": "2026-10-15T16:33:16Z",
+ "usage": {
+  "makers": {
+   "prompt": 5572,
+   "completion": 3549,
+   "seconds": 7.9,
+   "n": 34
+  },
+  "unseen": {
+   "prompt": 65828,
+   "completion": 38946,
+   "seconds": 34.5,
+   "n": 353
+  },
+  "adversarial": {
+   "prompt": 3392,
+   "completion": 1141,
+   "seconds": 3.2,
+   "n": 22
+  },
+  "atlas_test": {
+   "prompt": 30183,
+   "completion": 21027,
+   "seconds": 19.3,
+   "n": 200
+  }
+ }
+}

@@ -1,0 +1,32 @@
+{
+ "name": "ft-v1",
+ "base_model": "Qwen/Qwen3-8B",
+ "model_path": "tinker://6f04bd15-3726-520c-af5b-66baeb2b07c5:train:0/sampler_weights/ft-v1-final",
+ "started": "2026-10-15T17:12:28Z",
+ "usage": {
+  "makers": {
+   "prompt": 5572,
+   "completion": 8081,
+   "seconds": 18.6,
+   "n": 34
+  },
+  "unseen": {
+   "prompt": 65828,
+   "completion": 80606,
+   "seconds": 58.3,
+   "n": 353
+  },
+  "adversarial": {
+   "prompt": 3392,
+   "completion": 1742,
+   "seconds": 5.3,
+   "n": 22
+  },
+  "atlas_test": {
+   "prompt": 30183,
+   "completion": 47145,
+   "seconds": 35.0,
+   "n": 200
+  }
+ }
+}

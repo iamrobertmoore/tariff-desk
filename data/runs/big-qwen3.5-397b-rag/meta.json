@@ -1,0 +1,27 @@
+{
+ "name": "big-qwen3.5-397b-rag",
+ "base_model": "Qwen/Qwen3.5-397B-A17B",
+ "model_path": null,
+ "rag": true,
+ "started": "2026-10-15T17:48:37Z",
+ "usage": {
+  "makers": {
+   "prompt": 35099,
+   "completion": 4869,
+   "seconds": 7.8,
+   "n": 34
+  },
+  "unseen": {
+   "prompt": 397864,
+   "completion": 55226,
+   "seconds": 33.1,
+   "n": 353
+  },
+  "adversarial": {
+   "prompt": 22340,
+   "completion": 1350,
+   "seconds": 2.6,
+   "n": 22
+  }
+ }
+}

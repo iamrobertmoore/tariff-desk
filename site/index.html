@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tariff Desk</title>
+<meta name="description" content="Describe what you make and get the 10-digit US customs code your parcel needs. A small open model, fine-tuned on CBP rulings.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="mark" href="./" aria-label="Tariff Desk home"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="1" width="24" height="24" rx="4" fill="#15191d" stroke="#f2c230" stroke-width="2"/><rect x="5" y="5" width="16" height="7" rx="1.5" fill="#262c31"/><rect x="5" y="14" width="16" height="7" rx="1.5" fill="#1d2226"/><line x1="5" y1="13" x2="21" y2="13" stroke="#0b0d0f" stroke-width="1.2"/></svg><span>Tariff Desk</span></a>
+  <p class="route">The 10-digit US customs code for what you make</p>
+  <div class="clock" aria-label="Time in the UK"><span id="clock">--:--</span> <small>UK</small></div>
+</header>
+
+<main>
+  <section class="hall" aria-labelledby="board-title">
+    <div class="board" id="board">
+      <div class="board-head">
+        <h1 id="board-title">Departures to the United States</h1>
+        <button class="sound" id="sound" aria-pressed="false" title="Flap sound">Sound off</button>
+      </div>
+      <div class="cols" aria-hidden="true"><span>Goods</span><span>Tariff code</span><span>Status</span></div>
+      <div class="rows" id="rows" aria-live="polite"></div>
+      <div class="screws" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    </div>
+
+    <form class="ask" id="ask" autocomplete="off">
+      <label for="q">What are you sending to the US?</label>
+      <div class="ask-row">
+        <input id="q" name="q" maxlength="600" placeholder="e.g. Hand-poured soy candle in a reused glass jar, 200g" required>
+        <button type="submit" id="go">Get the code</button>
+      </div>
+      <div class="chips" id="chips"></div>
+      <p class="hint" id="hint">Say what it is and what it's made of. It's free, there's no login, and the answer comes from the model live.</p>
+    </form>
+  </section>
+
+  <section class="result" id="result" hidden aria-live="polite">
+    <div class="pair">
+      <div class="lane tuned">
+        <h2>Tariff Desk</h2>
+        <p class="who" id="tunedWho">Qwen3-8B, fine-tuned on CBP rulings</p>
+        <div class="code-flaps" id="tunedFlaps"></div>
+        <p class="verdict" id="tunedVerdict"></p>
+      </div>
+      <div class="lane base">
+        <h2>The same model, untrained</h2>
+        <p class="who">Qwen3-8B, same prompt, same rulings to read</p>
+        <div class="code-flaps small" id="baseFlaps"></div>
+        <p class="verdict" id="baseVerdict"></p>
+      </div>
+    </div>
+
+    <article class="label" id="label">
+      <header><span>CN23 customs declaration</span><span>DDP · to US</span></header>
+      <dl>
+        <div><dt>Contents</dt><dd id="lDesc"></dd></div>
+        <div><dt>HS tariff no.</dt><dd class="lcode" id="lCode"></dd></div>
+        <div><dt>US duty, general rate</dt><dd id="lDuty"></dd></div>
+        <div><dt>Schedule says</dt><dd id="lPath"></dd></div>
+      </dl>
+      <div class="label-foot">
+        <button id="copy" type="button">Copy the customs line</button>
+        <span class="copied" id="copied" hidden>Copied</span>
+      </div>
+      <div class="stamp" id="stamp">Real code</div>
+    </article>
+    <section class="prec" id="prec" hidden>
+      <h3>Past US Customs rulings it read first</h3>
+      <ul id="precList"></ul>
+    </section>
+    <details class="why"><summary>Why this code</summary><p id="reason"></p><p class="small-print">The duty and the description come from the US tariff schedule (USITC), not from the model. Check anything high-value with a customs broker.</p></details>
+  </section>
+
+  <section class="numbers" aria-labelledby="n-title">
+    <h2 id="n-title">Tested on rulings it has never seen</h2>
+    <p class="lede" id="nLede">Every code below is marked against a binding ruling that US Customs issued between June and August 2026, after the training data was collected.</p>
+    <div class="tally" id="tally"></div>
+    <p class="foot" id="nFoot"></p>
+  </section>
+
+  <section class="story">
+    <div class="col">
+      <h2>Why I built it</h2>
+      <p>I've sold wooden curtain poles on Etsy since 2020. Since US de minimis ended, every parcel to the US needs a 10-digit tariff code, and from 9 July Etsy wants sellers outside the US to ship with duties paid. "Handmade gift" doesn't cut it any more.</p>
+      <p>A general model guesses codes that look right and often don't exist. A small open model, trained on the rulings US Customs publishes, does the boring part properly and costs a fraction of a penny per parcel.</p>
+    </div>
+    <div class="col">
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li>You describe the item, the way you would in a listing.</li>
+        <li>Plain code finds the most similar past rulings among about 86,000 that US Customs has published, plus the matching lines of the tariff schedule.</li>
+        <li>A Qwen3-8B fine-tuned on Tinker reads them and answers with a code, or asks for the one fact it's missing.</li>
+        <li>Plain code checks the answer against the current US tariff schedule and reads the duty from it. A code that doesn't exist is shown as not real.</li>
+      </ol>
+      <p class="links"><a href="https://github.com/iamrobertmoore/tariff-desk">Code and answer key on GitHub</a></p>
+    </div>
+  </section>
+</main>
+
+<footer class="bottom">
+  <p>Open weights (Qwen3-8B, Apache-2.0), LoRA trained on Tinker, rulings from CBP's CROSS. Not legal advice. Built for the DEV Hacktoberfest 2026 Side Hustle challenge.</p>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>

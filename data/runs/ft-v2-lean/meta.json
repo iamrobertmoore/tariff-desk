@@ -1,0 +1,27 @@
+{
+ "name": "ft-v2-lean",
+ "base_model": "Qwen/Qwen3-8B",
+ "model_path": "tinker://113e2379-74ba-5b4b-a23b-86d67752cc3c:train:0/sampler_weights/ft-v2-lean-final",
+ "rag": true,
+ "started": "2026-10-16T09:12:41Z",
+ "usage": {
+  "makers": {
+   "prompt": 34857,
+   "completion": 7677,
+   "seconds": 24.9,
+   "n": 34
+  },
+  "unseen": {
+   "prompt": 395959,
+   "completion": 88619,
+   "seconds": 124.1,
+   "n": 353
+  },
+  "adversarial": {
+   "prompt": 22215,
+   "completion": 2214,
+   "seconds": 17.2,
+   "n": 22
+  }
+ }
+}

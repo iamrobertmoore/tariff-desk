@@ -1,0 +1,27 @@
+{
+ "name": "base-qwen3-8b-rag",
+ "base_model": "Qwen/Qwen3-8B",
+ "model_path": null,
+ "rag": true,
+ "started": "2026-10-15T17:47:01Z",
+ "usage": {
+  "makers": {
+   "prompt": 34857,
+   "completion": 4563,
+   "seconds": 13.4,
+   "n": 34
+  },
+  "unseen": {
+   "prompt": 395959,
+   "completion": 47834,
+   "seconds": 41.7,
+   "n": 353
+  },
+  "adversarial": {
+   "prompt": 22215,
+   "completion": 2643,
+   "seconds": 4.2,
+   "n": 22
+  }
+ }
+}

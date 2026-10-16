@@ -1,0 +1,19 @@
+{
+ "writer": "Qwen/Qwen3.6-35B-A3B",
+ "usage_listing": {
+  "prompt": 254378,
+  "completion": 80740
+ },
+ "usage_ask": {
+  "prompt": 70483,
+  "completion": 19980
+ },
+ "listing_ok": 2000,
+ "ask_ok": 600,
+ "counts": {
+  "ruling": 16840,
+  "listing": 2000,
+  "ask": 600,
+  "injection": 300
+ }
+}

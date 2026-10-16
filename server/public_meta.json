@@ -1,0 +1,470 @@
+{
+ "tally": {
+  "lede": "Each answer is marked against one of 353 binding rulings US Customs issued between June and August 2026, after every model here was trained. Exact means all ten digits match the ruling.",
+  "cards": [
+   {
+    "title": "Qwen3-8B, untrained",
+    "value": 0,
+    "of": 353,
+    "sub": "only 5 of its answers were real codes"
+   },
+   {
+    "title": "The same 8B, fine-tuned on Tinker",
+    "value": 30,
+    "of": 353,
+    "sub": "252 real codes"
+   },
+   {
+    "title": "Fine-tuned, reading similar past rulings first",
+    "value": 95,
+    "of": 353,
+    "win": true,
+    "sub": "331 real codes; asks instead of guessing on 13 of 15 vague listings"
+   }
+  ],
+  "foot": "Fine-tuning alone took the 8B from 0 to 30 exact (95% interval +5.7 to +11.6 points, paired bootstrap). Given the same past rulings, the untrained 8B gets 91 but never asks (0 of 15), and Qwen3.5-397B gets 117 at about 8 times the cost per code. Every output and the scoring script are in the repo."
+ },
+ "board": [
+  {
+   "id": "N363812",
+   "label": "SCENTED CANDLE",
+   "key": "3406.00.0000",
+   "tuned": "3406.00.0000",
+   "tuned_valid": true
+  },
+  {
+   "id": "N358156",
+   "label": "CANDLE + STAND",
+   "key": "9405.50.4000",
+   "tuned": "3406.00.0000",
+   "tuned_valid": true
+  },
+  {
+   "id": "N363470",
+   "label": "CLAY EARRINGS",
+   "key": "7117.90.7500",
+   "tuned": "7117.90.9000",
+   "tuned_valid": true
+  },
+  {
+   "id": "N361199",
+   "label": "BOOT MUG",
+   "key": "6912.00.4500",
+   "tuned": "6912.00.4810",
+   "tuned_valid": true
+  },
+  {
+   "id": "N363701",
+   "label": "PLUSH TEDDY BEAR",
+   "key": "9503.00.0090",
+   "tuned": "9503.00.0073",
+   "tuned_valid": true
+  },
+  {
+   "id": "N358409",
+   "label": "CANVAS ART PRINT",
+   "key": "4911.91.4040",
+   "tuned": "4911.91.4040",
+   "tuned_valid": true
+  },
+  {
+   "id": "N363968",
+   "label": "CHOPPING BOARD",
+   "key": "4419.20.9000",
+   "tuned": "4419.11.0000",
+   "tuned_valid": true
+  },
+  {
+   "id": "N363385",
+   "label": "DOG JUMPER",
+   "key": "4201.00.6000",
+   "tuned": "6110.20.2067",
+   "tuned_valid": true
+  },
+  {
+   "id": "N355302",
+   "label": "COTTON QUILT",
+   "key": "9404.40.1000",
+   "tuned": "6304.92.0000",
+   "tuned_valid": true
+  },
+  {
+   "id": "N362992",
+   "label": "CUSHION COVER",
+   "key": "6304.93.0000",
+   "tuned": "6304.93.0000",
+   "tuned_valid": true
+  },
+  {
+   "id": "N362291",
+   "label": "LINEN CUSHION",
+   "key": "6304.99.3500",
+   "tuned": "6304.92.0000",
+   "tuned_valid": true
+  },
+  {
+   "id": "N362270",
+   "label": "CLAW CLIP KIT",
+   "key": "9615.11.4000",
+   "tuned": "9615.11.4000",
+   "tuned_valid": true
+  },
+  {
+   "id": "N362344",
+   "label": "WILDFLOWER WREAT",
+   "key": "6702.10.2000",
+   "tuned": "6702.10.2000",
+   "tuned_valid": true
+  },
+  {
+   "id": "N363820",
+   "label": "DRIED POPPIES",
+   "key": "0604.90.3000",
+   "tuned": "1207.91.0000",
+   "tuned_valid": true
+  },
+  {
+   "id": "N361717",
+   "label": "PRESSED BOUQUET",
+   "key": "0603.90.0000",
+   "tuned": "0603.90.0000",
+   "tuned_valid": true
+  },
+  {
+   "id": "N363025",
+   "label": "LEATHER COVER",
+   "key": "4205.00.8000",
+   "tuned": "4820.10.4000",
+   "tuned_valid": true
+  },
+  {
+   "id": "N359801",
+   "label": "POCKET NOTEBOOK",
+   "key": "4820.10.2060",
+   "tuned": "4820.10.4000",
+   "tuned_valid": true
+  },
+  {
+   "id": "N360900",
+   "label": "SILK LAMPSHADE",
+   "key": "9405.99.4090",
+   "tuned": "9405.91.3000",
+   "tuned_valid": true
+  },
+  {
+   "id": "N359791",
+   "label": "OFRENDA BOX",
+   "key": "4420.90.8000",
+   "tuned": "8306.29.0000",
+   "tuned_valid": true
+  },
+  {
+   "id": "N353934",
+   "label": "BOOKMARK",
+   "key": "4823.90.6700",
+   "tuned": "3926.10.0000",
+   "tuned_valid": true
+  },
+  {
+   "id": "N348145",
+   "label": "SPARKLY JUMPER",
+   "key": "6110.30.3020",
+   "tuned": "6110.30.3045",
+   "tuned_valid": true
+  },
+  {
+   "id": "N360023",
+   "label": "COTTON BIB",
+   "key": "6217.10.9510",
+   "tuned": "6111.20.6070",
+   "tuned_valid": true
+  },
+  {
+   "id": "N362754",
+   "label": "CARD VILLAGE",
+   "key": "4823.90.6700",
+   "tuned": "9505.10.2500",
+   "tuned_valid": true
+  },
+  {
+   "id": "N359815",
+   "label": "IRON HEARTS",
+   "key": "8306.29.0000",
+   "tuned": "7326.90.5550",
+   "tuned_valid": false
+  },
+  {
+   "id": "N362362",
+   "label": "FABRIC CRACKERS",
+   "key": "9505.10.2500",
+   "tuned": "9505.10.2500",
+   "tuned_valid": true
+  },
+  {
+   "id": "N363426",
+   "label": "PARTY BANNER",
+   "key": "9505.90.4000",
+   "tuned": "9505.90.4000",
+   "tuned_valid": true
+  },
+  {
+   "id": "N359826",
+   "label": "MINI PLANTER",
+   "key": "6913.90.5000",
+   "tuned": "6913.90.5000",
+   "tuned_valid": true
+  },
+  {
+   "id": "N351211",
+   "label": "MUSLIN SWADDLE",
+   "key": "6307.90.9891",
+   "tuned": "6307.90.9890",
+   "tuned_valid": false
+  },
+  {
+   "id": "N358163",
+   "label": "GOLDFISH HAT",
+   "key": "6505.00.6090",
+   "tuned": "6104.43.2010",
+   "tuned_valid": true
+  },
+  {
+   "id": "N362854",
+   "label": "BEADED WALL ART",
+   "key": "8306.29.0000",
+   "tuned": "7326.20.0040",
+   "tuned_valid": true
+  },
+  {
+   "id": "N362694",
+   "label": "RESIN KEYRING KI",
+   "key": "3907.30.0000",
+   "tuned": "3907.30.0000",
+   "tuned_valid": true
+  },
+  {
+   "id": "N354748",
+   "label": "PHONE CASE",
+   "key": "3926.90.9989",
+   "tuned": "4202.99.9000",
+   "tuned_valid": true
+  },
+  {
+   "id": "N360054",
+   "label": "DOUGH BOUQUET",
+   "key": "3407.00.2000",
+   "tuned": "3926.90.3500",
+   "tuned_valid": true
+  },
+  {
+   "id": "N362075",
+   "label": "WHEELED TOTE",
+   "key": "4202.92.4500",
+   "tuned": "4202.92.4500",
+   "tuned_valid": true
+  }
+ ],
+ "examples": [
+  {
+   "chip": "Soy candle",
+   "text": "Hand-poured soy wax candle in a reused glass jar, 200g, lavender scent, cotton wick."
+  },
+  {
+   "chip": "Knitted scarf",
+   "text": "Hand-knitted scarf, 100% merino wool."
+  },
+  {
+   "chip": "Clay earrings",
+   "text": "Handmade polymer clay earrings on gold-plated stainless steel hooks."
+  },
+  {
+   "chip": "Linen cushion cover",
+   "text": "Linen cushion cover, 45 x 45 cm, envelope back, insert not included."
+  },
+  {
+   "chip": "My curtain pole",
+   "text": "Wooden curtain pole, 28mm oak, 2.4m long, sold with two wooden brackets and ball finials."
+  },
+  {
+   "chip": "\"Handmade gift\"",
+   "text": "Handmade gift for her, boho style, perfect for birthdays."
+  }
+ ],
+ "runs": {
+  "base-qwen3-8b": {
+   "makers": {
+    "n": 34,
+    "exact": 0,
+    "d6": 1,
+    "d4": 2,
+    "valid": 1,
+    "asked": 0,
+    "exact_pct": 0.0,
+    "d6_pct": 2.9,
+    "d4_pct": 5.9,
+    "valid_pct": 2.9
+   },
+   "unseen": {
+    "n": 353,
+    "exact": 0,
+    "d6": 2,
+    "d4": 27,
+    "valid": 5,
+    "asked": 0,
+    "exact_pct": 0.0,
+    "d6_pct": 0.6,
+    "d4_pct": 7.6,
+    "valid_pct": 1.4
+   },
+   "adversarial": {
+    "n": 22,
+    "ask_pass": 14,
+    "ask_n": 15,
+    "inj_pass": 0,
+    "inj_n": 7,
+    "inj_exact": 0,
+    "took_bait": 6
+   }
+  },
+  "ft-v1": {
+   "makers": {
+    "n": 34,
+    "exact": 2,
+    "d6": 7,
+    "d4": 10,
+    "valid": 25,
+    "asked": 0,
+    "exact_pct": 5.9,
+    "d6_pct": 20.6,
+    "d4_pct": 29.4,
+    "valid_pct": 73.5
+   },
+   "unseen": {
+    "n": 353,
+    "exact": 30,
+    "d6": 51,
+    "d4": 101,
+    "valid": 252,
+    "asked": 0,
+    "exact_pct": 8.5,
+    "d6_pct": 14.4,
+    "d4_pct": 28.6,
+    "valid_pct": 71.4
+   },
+   "adversarial": {
+    "n": 22,
+    "ask_pass": 15,
+    "ask_n": 15,
+    "inj_pass": 1,
+    "inj_n": 7,
+    "inj_exact": 0,
+    "took_bait": 3
+   }
+  },
+  "base-qwen3-8b-rag": {
+   "makers": {
+    "n": 34,
+    "exact": 12,
+    "d6": 17,
+    "d4": 19,
+    "valid": 34,
+    "asked": 0,
+    "exact_pct": 35.3,
+    "d6_pct": 50.0,
+    "d4_pct": 55.9,
+    "valid_pct": 100.0
+   },
+   "unseen": {
+    "n": 353,
+    "exact": 91,
+    "d6": 133,
+    "d4": 184,
+    "valid": 345,
+    "asked": 0,
+    "exact_pct": 25.8,
+    "d6_pct": 37.7,
+    "d4_pct": 52.1,
+    "valid_pct": 97.7
+   },
+   "adversarial": {
+    "n": 22,
+    "ask_pass": 0,
+    "ask_n": 15,
+    "inj_pass": 6,
+    "inj_n": 7,
+    "inj_exact": 5,
+    "took_bait": 1
+   }
+  },
+  "big-qwen3.5-397b-rag": {
+   "makers": {
+    "n": 34,
+    "exact": 13,
+    "d6": 20,
+    "d4": 22,
+    "valid": 32,
+    "asked": 1,
+    "exact_pct": 38.2,
+    "d6_pct": 58.8,
+    "d4_pct": 64.7,
+    "valid_pct": 94.1
+   },
+   "unseen": {
+    "n": 353,
+    "exact": 117,
+    "d6": 176,
+    "d4": 226,
+    "valid": 319,
+    "asked": 7,
+    "exact_pct": 33.1,
+    "d6_pct": 49.9,
+    "d4_pct": 64.0,
+    "valid_pct": 90.4
+   },
+   "adversarial": {
+    "n": 22,
+    "ask_pass": 15,
+    "ask_n": 15,
+    "inj_pass": 7,
+    "inj_n": 7,
+    "inj_exact": 6,
+    "took_bait": 0
+   }
+  },
+  "ft-v2-lean": {
+   "makers": {
+    "n": 34,
+    "exact": 11,
+    "d6": 17,
+    "d4": 20,
+    "valid": 32,
+    "asked": 0,
+    "exact_pct": 32.4,
+    "d6_pct": 50.0,
+    "d4_pct": 58.8,
+    "valid_pct": 94.1
+   },
+   "unseen": {
+    "n": 353,
+    "exact": 95,
+    "d6": 130,
+    "d4": 176,
+    "valid": 331,
+    "asked": 0,
+    "exact_pct": 26.9,
+    "d6_pct": 36.8,
+    "d4_pct": 49.9,
+    "valid_pct": 93.8
+   },
+   "adversarial": {
+    "n": 22,
+    "ask_pass": 13,
+    "ask_n": 15,
+    "inj_pass": 5,
+    "inj_n": 7,
+    "inj_exact": 5,
+    "took_bait": 2
+   }
+  }
+ }
+}

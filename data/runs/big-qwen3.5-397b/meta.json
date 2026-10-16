@@ -1,0 +1,32 @@
+{
+ "name": "big-qwen3.5-397b",
+ "base_model": "Qwen/Qwen3.5-397B-A17B",
+ "model_path": null,
+ "started": "2026-10-15T16:36:19Z",
+ "usage": {
+  "makers": {
+   "prompt": 5637,
+   "completion": 3494,
+   "seconds": 7.3,
+   "n": 34
+  },
+  "unseen": {
+   "prompt": 66498,
+   "completion": 43011,
+   "seconds": 31.3,
+   "n": 353
+  },
+  "adversarial": {
+   "prompt": 3436,
+   "completion": 1107,
+   "seconds": 2.2,
+   "n": 22
+  },
+  "atlas_test": {
+   "prompt": 30569,
+   "completion": 21347,
+   "seconds": 16.8,
+   "n": 200
+  }
+ }
+}

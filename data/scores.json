@@ -1,0 +1,636 @@
+{
+ "runs": {
+  "base-qwen3-8b": {
+   "meta": {
+    "name": "base-qwen3-8b",
+    "base_model": "Qwen/Qwen3-8B",
+    "model_path": null,
+    "started": "2026-10-15T16:33:16Z",
+    "usage": {
+     "makers": {
+      "prompt": 5572,
+      "completion": 3549,
+      "seconds": 7.9,
+      "n": 34
+     },
+     "unseen": {
+      "prompt": 65828,
+      "completion": 38946,
+      "seconds": 34.5,
+      "n": 353
+     },
+     "adversarial": {
+      "prompt": 3392,
+      "completion": 1141,
+      "seconds": 3.2,
+      "n": 22
+     },
+     "atlas_test": {
+      "prompt": 30183,
+      "completion": 21027,
+      "seconds": 19.3,
+      "n": 200
+     }
+    }
+   },
+   "makers": {
+    "n": 34,
+    "exact": 0,
+    "d6": 1,
+    "d4": 2,
+    "valid": 1,
+    "asked": 0,
+    "exact_pct": 0.0,
+    "d6_pct": 2.9,
+    "d4_pct": 5.9,
+    "valid_pct": 2.9
+   },
+   "unseen": {
+    "n": 353,
+    "exact": 0,
+    "d6": 2,
+    "d4": 27,
+    "valid": 5,
+    "asked": 0,
+    "exact_pct": 0.0,
+    "d6_pct": 0.6,
+    "d4_pct": 7.6,
+    "valid_pct": 1.4
+   },
+   "atlas_test": {
+    "n": 200,
+    "exact": 0,
+    "d6": 8,
+    "d4": 24,
+    "valid": 1,
+    "asked": 0,
+    "exact_pct": 0.0,
+    "d6_pct": 4.0,
+    "d4_pct": 12.0,
+    "valid_pct": 0.5
+   },
+   "adversarial": {
+    "n": 22,
+    "ask_pass": 14,
+    "ask_n": 15,
+    "inj_pass": 0,
+    "inj_n": 7,
+    "inj_exact": 0,
+    "took_bait": 6
+   }
+  },
+  "ft-v1": {
+   "meta": {
+    "name": "ft-v1",
+    "base_model": "Qwen/Qwen3-8B",
+    "model_path": "tinker://6f04bd15-3726-520c-af5b-66baeb2b07c5:train:0/sampler_weights/ft-v1-final",
+    "started": "2026-10-15T17:12:28Z",
+    "usage": {
+     "makers": {
+      "prompt": 5572,
+      "completion": 8081,
+      "seconds": 18.6,
+      "n": 34
+     },
+     "unseen": {
+      "prompt": 65828,
+      "completion": 80606,
+      "seconds": 58.3,
+      "n": 353
+     },
+     "adversarial": {
+      "prompt": 3392,
+      "completion": 1742,
+      "seconds": 5.3,
+      "n": 22
+     },
+     "atlas_test": {
+      "prompt": 30183,
+      "completion": 47145,
+      "seconds": 35.0,
+      "n": 200
+     }
+    }
+   },
+   "makers": {
+    "n": 34,
+    "exact": 2,
+    "d6": 7,
+    "d4": 10,
+    "valid": 25,
+    "asked": 0,
+    "exact_pct": 5.9,
+    "d6_pct": 20.6,
+    "d4_pct": 29.4,
+    "valid_pct": 73.5
+   },
+   "unseen": {
+    "n": 353,
+    "exact": 30,
+    "d6": 51,
+    "d4": 101,
+    "valid": 252,
+    "asked": 0,
+    "exact_pct": 8.5,
+    "d6_pct": 14.4,
+    "d4_pct": 28.6,
+    "valid_pct": 71.4
+   },
+   "atlas_test": {
+    "n": 200,
+    "exact": 80,
+    "d6": 111,
+    "d4": 137,
+    "valid": 185,
+    "asked": 0,
+    "exact_pct": 40.0,
+    "d6_pct": 55.5,
+    "d4_pct": 68.5,
+    "valid_pct": 92.5
+   },
+   "adversarial": {
+    "n": 22,
+    "ask_pass": 15,
+    "ask_n": 15,
+    "inj_pass": 1,
+    "inj_n": 7,
+    "inj_exact": 0,
+    "took_bait": 3
+   }
+  },
+  "big-qwen3.5-397b": {
+   "meta": {
+    "name": "big-qwen3.5-397b",
+    "base_model": "Qwen/Qwen3.5-397B-A17B",
+    "model_path": null,
+    "started": "2026-10-15T16:36:19Z",
+    "usage": {
+     "makers": {
+      "prompt": 5637,
+      "completion": 3494,
+      "seconds": 7.3,
+      "n": 34
+     },
+     "unseen": {
+      "prompt": 66498,
+      "completion": 43011,
+      "seconds": 31.3,
+      "n": 353
+     },
+     "adversarial": {
+      "prompt": 3436,
+      "completion": 1107,
+      "seconds": 2.2,
+      "n": 22
+     },
+     "atlas_test": {
+      "prompt": 30569,
+      "completion": 21347,
+      "seconds": 16.8,
+      "n": 200
+     }
+    }
+   },
+   "makers": {
+    "n": 34,
+    "exact": 6,
+    "d6": 13,
+    "d4": 20,
+    "valid": 20,
+    "asked": 0,
+    "exact_pct": 17.6,
+    "d6_pct": 38.2,
+    "d4_pct": 58.8,
+    "valid_pct": 58.8
+   },
+   "unseen": {
+    "n": 353,
+    "exact": 31,
+    "d6": 110,
+    "d4": 155,
+    "valid": 161,
+    "asked": 0,
+    "exact_pct": 8.8,
+    "d6_pct": 31.2,
+    "d4_pct": 43.9,
+    "valid_pct": 45.6
+   },
+   "atlas_test": {
+    "n": 200,
+    "exact": 22,
+    "d6": 85,
+    "d4": 114,
+    "valid": 99,
+    "asked": 8,
+    "exact_pct": 11.0,
+    "d6_pct": 42.5,
+    "d4_pct": 57.0,
+    "valid_pct": 49.5
+   },
+   "adversarial": {
+    "n": 22,
+    "ask_pass": 15,
+    "ask_n": 15,
+    "inj_pass": 5,
+    "inj_n": 7,
+    "inj_exact": 4,
+    "took_bait": 1
+   }
+  },
+  "base-qwen3-8b-rag": {
+   "meta": {
+    "name": "base-qwen3-8b-rag",
+    "base_model": "Qwen/Qwen3-8B",
+    "model_path": null,
+    "rag": true,
+    "started": "2026-10-15T17:47:01Z",
+    "usage": {
+     "makers": {
+      "prompt": 34857,
+      "completion": 4563,
+      "seconds": 13.4,
+      "n": 34
+     },
+     "unseen": {
+      "prompt": 395959,
+      "completion": 47834,
+      "seconds": 41.7,
+      "n": 353
+     },
+     "adversarial": {
+      "prompt": 22215,
+      "completion": 2643,
+      "seconds": 4.2,
+      "n": 22
+     }
+    }
+   },
+   "makers": {
+    "n": 34,
+    "exact": 12,
+    "d6": 17,
+    "d4": 19,
+    "valid": 34,
+    "asked": 0,
+    "exact_pct": 35.3,
+    "d6_pct": 50.0,
+    "d4_pct": 55.9,
+    "valid_pct": 100.0
+   },
+   "unseen": {
+    "n": 353,
+    "exact": 91,
+    "d6": 133,
+    "d4": 184,
+    "valid": 345,
+    "asked": 0,
+    "exact_pct": 25.8,
+    "d6_pct": 37.7,
+    "d4_pct": 52.1,
+    "valid_pct": 97.7
+   },
+   "adversarial": {
+    "n": 22,
+    "ask_pass": 0,
+    "ask_n": 15,
+    "inj_pass": 6,
+    "inj_n": 7,
+    "inj_exact": 5,
+    "took_bait": 1
+   }
+  },
+  "ft-v2-lean": {
+   "meta": {
+    "name": "ft-v2-lean",
+    "base_model": "Qwen/Qwen3-8B",
+    "model_path": "tinker://113e2379-74ba-5b4b-a23b-86d67752cc3c:train:0/sampler_weights/ft-v2-lean-final",
+    "rag": true,
+    "started": "2026-10-16T09:12:41Z",
+    "usage": {
+     "makers": {
+      "prompt": 34857,
+      "completion": 7677,
+      "seconds": 24.9,
+      "n": 34
+     },
+     "unseen": {
+      "prompt": 395959,
+      "completion": 88619,
+      "seconds": 124.1,
+      "n": 353
+     },
+     "adversarial": {
+      "prompt": 22215,
+      "completion": 2214,
+      "seconds": 17.2,
+      "n": 22
+     }
+    }
+   },
+   "makers": {
+    "n": 34,
+    "exact": 11,
+    "d6": 17,
+    "d4": 20,
+    "valid": 32,
+    "asked": 0,
+    "exact_pct": 32.4,
+    "d6_pct": 50.0,
+    "d4_pct": 58.8,
+    "valid_pct": 94.1
+   },
+   "unseen": {
+    "n": 353,
+    "exact": 95,
+    "d6": 130,
+    "d4": 176,
+    "valid": 331,
+    "asked": 0,
+    "exact_pct": 26.9,
+    "d6_pct": 36.8,
+    "d4_pct": 49.9,
+    "valid_pct": 93.8
+   },
+   "adversarial": {
+    "n": 22,
+    "ask_pass": 13,
+    "ask_n": 15,
+    "inj_pass": 5,
+    "inj_n": 7,
+    "inj_exact": 5,
+    "took_bait": 2
+   }
+  },
+  "big-qwen3.5-397b-rag": {
+   "meta": {
+    "name": "big-qwen3.5-397b-rag",
+    "base_model": "Qwen/Qwen3.5-397B-A17B",
+    "model_path": null,
+    "rag": true,
+    "started": "2026-10-15T17:48:37Z",
+    "usage": {
+     "makers": {
+      "prompt": 35099,
+      "completion": 4869,
+      "seconds": 7.8,
+      "n": 34
+     },
+     "unseen": {
+      "prompt": 397864,
+      "completion": 55226,
+      "seconds": 33.1,
+      "n": 353
+     },
+     "adversarial": {
+      "prompt": 22340,
+      "completion": 1350,
+      "seconds": 2.6,
+      "n": 22
+     }
+    }
+   },
+   "makers": {
+    "n": 34,
+    "exact": 13,
+    "d6": 20,
+    "d4": 22,
+    "valid": 32,
+    "asked": 1,
+    "exact_pct": 38.2,
+    "d6_pct": 58.8,
+    "d4_pct": 64.7,
+    "valid_pct": 94.1
+   },
+   "unseen": {
+    "n": 353,
+    "exact": 117,
+    "d6": 176,
+    "d4": 226,
+    "valid": 319,
+    "asked": 7,
+    "exact_pct": 33.1,
+    "d6_pct": 49.9,
+    "d4_pct": 64.0,
+    "valid_pct": 90.4
+   },
+   "adversarial": {
+    "n": 22,
+    "ask_pass": 15,
+    "ask_n": 15,
+    "inj_pass": 7,
+    "inj_n": 7,
+    "inj_exact": 6,
+    "took_bait": 0
+   }
+  }
+ },
+ "pairs": {
+  "ft-v1_vs_base-qwen3-8b_makers": {
+   "exact": {
+    "diff_pts": 5.9,
+    "ci95": [
+     0.0,
+     14.7
+    ]
+   },
+   "d6": {
+    "diff_pts": 17.6,
+    "ci95": [
+     5.9,
+     32.4
+    ]
+   },
+   "d4": {
+    "diff_pts": 23.5,
+    "ci95": [
+     8.8,
+     38.2
+    ]
+   }
+  },
+  "ft-v1_vs_base-qwen3-8b_unseen": {
+   "exact": {
+    "diff_pts": 8.5,
+    "ci95": [
+     5.7,
+     11.6
+    ]
+   },
+   "d6": {
+    "diff_pts": 13.9,
+    "ci95": [
+     10.2,
+     17.8
+    ]
+   },
+   "d4": {
+    "diff_pts": 21.0,
+    "ci95": [
+     16.4,
+     25.8
+    ]
+   }
+  },
+  "ft-v1_vs_base-qwen3-8b_atlas_test": {
+   "exact": {
+    "diff_pts": 40.0,
+    "ci95": [
+     33.5,
+     47.0
+    ]
+   },
+   "d6": {
+    "diff_pts": 51.5,
+    "ci95": [
+     44.5,
+     58.5
+    ]
+   },
+   "d4": {
+    "diff_pts": 56.5,
+    "ci95": [
+     49.0,
+     64.0
+    ]
+   }
+  },
+  "ft-v2-lean_vs_base-qwen3-8b-rag_makers": {
+   "exact": {
+    "diff_pts": -2.9,
+    "ci95": [
+     -14.7,
+     8.8
+    ]
+   },
+   "d6": {
+    "diff_pts": 0.0,
+    "ci95": [
+     -14.7,
+     14.7
+    ]
+   },
+   "d4": {
+    "diff_pts": 2.9,
+    "ci95": [
+     -11.8,
+     17.6
+    ]
+   }
+  },
+  "ft-v2-lean_vs_base-qwen3-8b-rag_unseen": {
+   "exact": {
+    "diff_pts": 1.1,
+    "ci95": [
+     -1.4,
+     3.7
+    ]
+   },
+   "d6": {
+    "diff_pts": -0.8,
+    "ci95": [
+     -4.0,
+     2.3
+    ]
+   },
+   "d4": {
+    "diff_pts": -2.3,
+    "ci95": [
+     -5.9,
+     1.4
+    ]
+   }
+  },
+  "big-qwen3.5-397b-rag_vs_ft-v2-lean_makers": {
+   "exact": {
+    "diff_pts": 5.9,
+    "ci95": [
+     0.0,
+     14.7
+    ]
+   },
+   "d6": {
+    "diff_pts": 8.8,
+    "ci95": [
+     -5.9,
+     23.5
+    ]
+   },
+   "d4": {
+    "diff_pts": 5.9,
+    "ci95": [
+     -8.8,
+     20.6
+    ]
+   }
+  },
+  "big-qwen3.5-397b-rag_vs_ft-v2-lean_unseen": {
+   "exact": {
+    "diff_pts": 6.2,
+    "ci95": [
+     2.0,
+     10.5
+    ]
+   },
+   "d6": {
+    "diff_pts": 13.0,
+    "ci95": [
+     8.5,
+     17.6
+    ]
+   },
+   "d4": {
+    "diff_pts": 14.2,
+    "ci95": [
+     9.3,
+     19.0
+    ]
+   }
+  },
+  "ft-v2-lean_vs_base-qwen3-8b_makers": {
+   "exact": {
+    "diff_pts": 32.4,
+    "ci95": [
+     17.6,
+     50.0
+    ]
+   },
+   "d6": {
+    "diff_pts": 47.1,
+    "ci95": [
+     29.4,
+     64.7
+    ]
+   },
+   "d4": {
+    "diff_pts": 52.9,
+    "ci95": [
+     35.3,
+     70.6
+    ]
+   }
+  },
+  "ft-v2-lean_vs_base-qwen3-8b_unseen": {
+   "exact": {
+    "diff_pts": 26.9,
+    "ci95": [
+     22.4,
+     31.7
+    ]
+   },
+   "d6": {
+    "diff_pts": 36.3,
+    "ci95": [
+     31.2,
+     41.4
+    ]
+   },
+   "d4": {
+    "diff_pts": 42.2,
+    "ci95": [
+     36.5,
+     47.9
+    ]
+   }
+  }
+ }
+}
