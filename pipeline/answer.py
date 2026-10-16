@@ -111,25 +111,27 @@ def decide(text, code, need, context, hts, headings):
     conf, mats = materials.conflict(text, code)
     raw = bool(code) and int(code[:4]) in RAW and backing < 3
     best = code if (code and code in hts) else None
-    swapped, hinted = False, False
+    swapped, hinted, reason = False, False, None
     fixed = _species(text, best, hts) if best else best
-    if fixed != best: best, swapped = fixed, True
+    if fixed != best: best, swapped, reason = fixed, True, "species"
     in_material = bool(code) and any(int(code[:2]) in materials.MATERIALS[m][1] for m in mats)
     # The model's code contradicts a named material, sits on a raw-material line, or no similar ruling
     # backs it and it isn't even in the named material's chapters: lead with the best line in the
     # material's own chapters (falling back to "other articles of <material>").
     if mats and ((conf and backing < 3) or raw or (backing == 0 and not in_material)):
         alt = _material_line(text, mats, hts)
-        if alt and alt != best: best, swapped = alt, True
+        if alt and alt != best:
+            best, swapped = alt, True
+            reason = "invalid" if not (code and code in hts) else ("conflict" if conf else ("raw" if raw else "unbacked"))
     if not best and mats:
         alt = _material_line(text, mats, hts)
-        if alt: best, swapped = alt, True
+        if alt: best, swapped, reason = alt, True, "invalid"
     hint_alts = []
     for pat, codes in HINTS:
         if codes[0].startswith("9503") and code and (code[:2] == "95" or backing >= 3): continue
         if re.search(pat, text.lower()) and not (best and best[:4] == codes[0][:4]):
             hint_alts = [c for c in codes if c in hts]
-            if hint_alts: best, hinted = hint_alts[0], True
+            if hint_alts: best, hinted, reason = hint_alts[0], True, "heading"
             break
     confident = bool(best) and best == code and not conf and not raw and backing >= 3
     counts = collections.Counter(prec)
@@ -146,7 +148,7 @@ def decide(text, code, need, context, hts, headings):
         cands.append(c)
     cands = cands[:5]
     if not best and cands:   # the model's code isn't real and no material was named: lead with what the rulings used most
-        best, swapped = cands[0], True
-    return {"kind": "code", "best": best, "model_code": code, "confident": confident, "backing": backing,
+        best, swapped, reason = cands[0], True, "invalid"
+    return {"kind": "code", "reason": reason, "best": best, "model_code": code, "confident": confident, "backing": backing,
             "material_conflict": conf, "swapped": swapped, "hinted": hinted, "raw": raw, "materials": mats,
             "options": [] if confident else [{"code": c, "words": words(c, hts, headings), "duty": hts[c]["general"] or "see schedule"} for c in cands]}

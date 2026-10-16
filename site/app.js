@@ -57,7 +57,7 @@ class Flap {
     const end = S.indexOf(target);
     let n = (end - i + S.length) % S.length + spins * S.length;
     if (n === 0 && spins === 0) return;
-    const per = Math.max(9, Math.min(ms, 1100 / (2 * n)));
+    const per = Math.max(6, Math.min(ms, (window.__flapCap || 1100) / (2 * n)));
     while (n-- > 0) { i = (i + 1) % S.length; await this.step(S[i], per); }
   }
   color(c) { this.el.classList.remove("ok", "bad", "warn"); if (c) this.el.classList.add(c); }
@@ -166,7 +166,7 @@ $("#ask").addEventListener("submit", async (e) => {
   e.preventDefault();
   if (busy) return;
   const text = $("#q").value.trim(); if (text.length < 3) return;
-  busy = true; $("#go").disabled = true; $("#hint").className = "hint"; $("#hint").textContent = "Reading past rulings and asking the model. This takes about 10 seconds.";
+  busy = true; $("#go").disabled = true; $("#hint").className = "hint"; $("#hint").textContent = "Reading past rulings and asking the model. This takes a few seconds.";
   if (!mine) { mine = makeRow(true); rowsEl.prepend(mine.row); }
   mine.code.forEach((c) => c.color(""));
   setStatus(mine, "yellow", "CHECKING", "");
@@ -228,11 +228,17 @@ async function showResult(res) {
     fillLabel(res.text, A.best, res.duty, res.words, "Ready", false);
   } else {
     $("#aTitle").textContent = "Best guess, but check it";
-    const why = A.swapped && A.material_conflict
-      ? `It first picked a code for a different material, but your description says ${A.materials.join(" and ")}, so this is the schedule line for things made of that.`
-      : A.swapped
-      ? `No similar US Customs ruling used the code it first picked (${esc(A.model_code)}), so this is the schedule's line for things made of ${A.materials.join(" and ")}.`
-      : A.backing ? `Only ${A.backing} of the 12 most similar US Customs rulings used this code.` : "None of the 12 most similar US Customs rulings used this code.";
+    const mats = (A.materials || []).join(" and "), mfirst = esc(A.model_code || "");
+    const WHY = {
+      conflict: `It first picked a code for a different material, but your description says ${mats}, so this is the schedule line for things made of that.`,
+      raw: `It first picked ${mfirst}, a line for raw or unworked material, so this is the schedule's line for finished things made of ${mats}.`,
+      unbacked: `No similar US Customs ruling used the code it first picked (${mfirst}), so this is the schedule's line for things made of ${mats}.`,
+      species: `It first picked ${mfirst}, the line for a different kind of wood, so this is the same line for the wood you named.`,
+      heading: `The schedule's heading for this kind of item covers it whatever it's made of, so this line comes ahead of the model's first pick (${mfirst}).`,
+      invalid: mfirst ? `The code it first picked (${mfirst}) isn't in the US schedule, so this is the closest real line.` : "This is the closest real line in the US schedule.",
+    };
+    const why = WHY[A.reason] || (A.swapped && A.material_conflict ? WHY.conflict : A.swapped ? WHY.unbacked
+      : A.backing ? `Only ${A.backing} of the 12 most similar US Customs rulings used this code.` : "None of the 12 most similar US Customs rulings used this code.");
     $("#aSentence").innerHTML = why;
     await setText(tunedCells, fmtCode(A.best || ""), { stagger: 50 }); tunedCells.forEach((c) => c.color("warn"));
     const first = A.options[0] || {};

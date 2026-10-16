@@ -15,14 +15,14 @@
     "sub": "252 real codes"
    },
    {
-    "title": "Fine-tuned, reading similar past rulings first",
-    "value": 95,
+    "title": "Tariff Desk: fine-tuned, reading similar past rulings first",
+    "value": 100,
     "of": 353,
     "win": true,
-    "sub": "331 real codes; asks instead of guessing on 13 of 15 vague listings"
+    "sub": "352 real codes; asks instead of guessing on 13 of 15 vague listings"
    }
   ],
-  "foot": "Fine-tuning alone took the 8B from 0 to 30 exact (95% interval +5.7 to +11.6 points, paired bootstrap). Given the same past rulings, the untrained 8B gets 91 but never asks (0 of 15), and Qwen3.5-397B gets 117 at about 8 times the cost per code. Every output and the scoring script are in the repo."
+  "foot": "Fine-tuning alone took the 8B from 0 to 30 exact (95% interval +5.7 to +11.6 points, paired bootstrap). Given the same past rulings, the untrained 8B gets 91 but never asks (0 of 15), and Qwen3.5-397B gets 117 at about 9 times the cost per answer. Every output and the scoring script are in the repo."
  },
  "board": [
   {

@@ -50,17 +50,22 @@ def main():
     pair = sc["pairs"].get(f"{o.plain}_vs_{o.base}_unseen", {}).get("exact", {})
     led = json.load(open(ROOT / "data/ledger.json"))["per_code_by_run"]
     ratio = led[o.big] / led[o.tuned]
+    # the live page = fine-tuned model + the plain-code answer rules (qa/metrics.py); live cost ratio measured on Tinker
+    mx = ROOT / "data/metrics_extra.json"
+    desk = json.load(open(mx))["unseen.desk"] if mx.exists() else {"exact": t["exact"], "valid": t["valid"]}
+    lv = ROOT / "data/live.json"
+    if lv.exists(): ratio = json.load(open(lv))["ratio"]
     tally = {
         "lede": f"Each answer is marked against one of {n} binding rulings US Customs issued between June and August 2026, after every model here was trained. Exact means all ten digits match the ruling.",
         "cards": [
             {"title": "Qwen3-8B, untrained", "value": b["exact"], "of": n, "sub": f"only {b['valid']} of its answers were real codes"},
             {"title": "The same 8B, fine-tuned on Tinker", "value": p["exact"], "of": n, "sub": f"{p['valid']} real codes"},
-            {"title": "Fine-tuned, reading similar past rulings first", "value": t["exact"], "of": n, "win": True,
-             "sub": f"{t['valid']} real codes; asks instead of guessing on {adv_t['ask_pass']} of {adv_t['ask_n']} vague listings"},
+            {"title": "Tariff Desk: fine-tuned, reading similar past rulings first", "value": desk["exact"], "of": n, "win": True,
+             "sub": f"{desk['valid']} real codes; asks instead of guessing on {adv_t['ask_pass']} of {adv_t['ask_n']} vague listings"},
         ],
         "foot": (f"Fine-tuning alone took the 8B from {b['exact']} to {p['exact']} exact (95% interval +{pair.get('ci95',['?','?'])[0]} to +{pair.get('ci95',['?','?'])[1]} points, paired bootstrap). "
                  f"Given the same past rulings, the untrained 8B gets {br['exact']} but never asks ({adv_b['ask_pass']} of {adv_b['ask_n']}), "
-                 f"and Qwen3.5-397B gets {bg['exact']} at about {ratio:.0f} times the cost per code. Every output and the scoring script are in the repo."),
+                 f"and Qwen3.5-397B gets {bg['exact']} at about {ratio:.0f} times the cost per answer. Every output and the scoring script are in the repo."),
     }
     # board rows: every maker item, in order, with the tuned model's real answer
     run = {json.loads(l)["id"]: json.loads(l) for l in open(ROOT / f"data/runs/{o.tuned}/makers.jsonl")}
