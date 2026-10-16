@@ -486,6 +486,16 @@
    "n": 55
   }
  },
+ "answer": {
+  "best_right": 96,
+  "conf": 78,
+  "conf_right": 42,
+  "unsure": 275,
+  "unsure_best_right": 54,
+  "unsure_in_options": 83,
+  "asked": 0,
+  "shown_right": 125
+ },
  "train": {
   "ruling": 16840,
   "listing": 2000,

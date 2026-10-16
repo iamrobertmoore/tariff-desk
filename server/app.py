@@ -21,6 +21,7 @@ HEADINGS = json.load(gzip.open(HERE / "hts_headings.json.gz", "rt"))
 CONFIG = json.load(open(HERE / "model.json"))
 sys.path.insert(0, str(HERE.parent / "pipeline"))
 import precedents  # the same precedent block used in training and evaluation
+import answer      # what the seller sees: a code, a pick-one list, or a question (plain code)
 LIBRARY = precedents.load_library(HERE.parent / "data/library.json.gz")
 TINKER = "https://tinker.thinkingmachines.dev/services/tinker-prod/oai/api/v1/completions"
 KEY = os.environ.get("TINKER_API_KEY", "")
@@ -64,6 +65,16 @@ async def ask(client, model, text, context):
 
 app = FastAPI(title="Tariff Desk")
 
+def finalize(out):
+    t = out["tuned"]
+    ctx = precedents.block(LIBRARY, HTS, f"What is the HTS US Code for this product? {out['text']}")
+    a = answer.decide(out["text"], t.get("code"), t.get("need"), ctx, HTS, HEADINGS)
+    out["answer"] = a
+    if a.get("best"):
+        out["duty"] = HTS[a["best"]]["general"] or "see schedule"
+        out["words"] = answer.words(a["best"], HTS, HEADINGS)
+    return out
+
 # Answers are deterministic (temperature 0), so a repeat of the same description is served from cache.
 # The examples on the page are pre-computed into cache.json, so the first click always works and costs nothing.
 CACHE_FILE = HERE / "cache.json"
@@ -84,7 +95,7 @@ async def classify(req: Request):
     if len(text) > 600: raise HTTPException(400, "Keep it under 600 characters, like a listing summary.")
     k = ckey(text)
     if k in CACHE:
-        return dict(CACHE[k], cached=True)
+        return finalize(dict(CACHE[k], cached=True))
     ip = req.headers.get("x-forwarded-for", req.client.host if req.client else "?").split(",")[0]
     q = hits[ip]; now = time.time()
     while q and now - q[0] > WINDOW: q.popleft()
@@ -111,7 +122,7 @@ async def classify(req: Request):
     out = {"text": text, "tuned": tuned, "base": base, "precedents": prec,
            "model": {"tuned": CONFIG["label"], "base": CONFIG["base"]}}
     if len(CACHE) < 5000: CACHE[k] = out
-    return out
+    return finalize(dict(out))
 
 @app.get("/api/meta")
 def meta():

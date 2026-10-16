@@ -15,7 +15,7 @@ Tariff Desk is the tool I wanted: type the item the way you'd write it in a list
 |---|---|
 | [Open the page](https://tariff-desk.onrender.com) and click **Soy candle** | The board flips to 3406.00.0000, backed by 12 of the 12 most similar past rulings, duty Free |
 | Click **"Handmade gift"** | It asks what the item is and what it's made of, while the untrained model invents a code |
-| Type your own product | It answers live, shows the past rulings it read, and tells you how well they back the code |
+| Click **My curtain pole** | It's not sure, so it shows its best guess (other articles of wood, 4421.99.9880) and asks which of five codes is closest |
 
 ## The problem, in numbers
 
@@ -41,7 +41,7 @@ What I take from it:
 - **Past rulings do the heavy lifting on accuracy.** Given the same rulings, the untrained 8B gets close to the fine-tuned one on exact matches; the difference (+1.1 points, 95% interval -1.4 to +3.7) sits inside the noise. What the fine-tune adds there is behaviour: it asks instead of guessing on 13 of 15 vague listings, where the untrained model, given the same rulings, asks on 0.
 - **The big model is better, and costs more.** Qwen3.5-397B with the same rulings gets 117. Per code it costs about 8 times as much at Tinker's published prices.
 
-**How much to trust a single answer.** The page counts how many of the 12 similar rulings used the code the model picked. On the unseen set, when 3 or more did, the code matched CBP's ruling 42 times out of 80; with 1 or 2, 50 of 218; when none did, 3 of 55. So the page marks answers *well backed*, *check it* or *unbacked*, and never shows the model's own duty figure: the duty comes from the USITC schedule.
+**One answer, or one question.** The page shows a code when it's confident: at least 3 of the 12 similar rulings used it and it doesn't contradict a material the seller named. That happened 78 times on the unseen set, and 42 matched CBP's ruling. When it isn't sure, it shows its best guess and asks "which of these is closest to your item?" with up to five codes in the schedule's own words; the right code was in that list 83 times out of 275. Altogether the right code was on screen for 125 of 353. A plain-code material check stops a wooden item getting a metal code, and offers the schedule's "other articles of wood" line instead (`pipeline/answer.py`, `pipeline/materials.py`).
 
 ## How it works
 
@@ -68,7 +68,7 @@ Everything, from building the answer key to both fine-tunes and all the comparis
 ## Limits
 
 - An exact code on about a quarter of rulings is a start, not a broker. The page says how well each answer is backed and points high-value items to a customs broker.
-- The precedent library only holds rulings whose code still exists in today's schedule, so some old but relevant rulings are missing. It got my own curtain poles wrong because the closest rulings it found were for metal and plastic curtain rods.
+- The precedent library only holds rulings whose code still exists in today's schedule, so some old but relevant rulings are missing. That's why the model got my own wooden curtain poles wrong (it found rulings for metal and plastic rods); the material check now catches it and offers the right line.
 - US only, and only the classification: no landed-cost calculation, and no Section 232 or other additional duties.
 
 ## Run it yourself

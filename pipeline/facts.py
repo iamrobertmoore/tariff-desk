@@ -54,6 +54,22 @@ def build(o):
         b = "strong" if n >= 3 else ("some" if n >= 1 else "none")
         cal[b][1] += 1; cal[b][0] += c == key[r["id"]]["key"]
     F["calibration"] = {b: {"right": v[0], "n": v[1]} for b, v in cal.items()}
+    # what the seller sees (answer.py): confident answers, and the pick-one list when it isn't sure
+    import answer as _ans
+    heads = json.load(open(ROOT / "data/hts_headings.json")) if (ROOT / "data/hts_headings.json").exists() else {}
+    hts = json.load(open(ROOT / "data/hts_index.json"))
+    st = {"best_right": 0, "conf": 0, "conf_right": 0, "unsure": 0, "unsure_best_right": 0, "unsure_in_options": 0, "asked": 0, "shown_right": 0}
+    for l in open(ROOT / f"data/runs/{o.tuned}/unseen.jsonl"):
+        r = json.loads(l); p = r["parsed"]; k = key[r["id"]]["key"]
+        d = _ans.decide(key[r["id"]]["question"], p["code"], p["need"], ctx[r["id"]], hts, heads)
+        if d["kind"] == "ask": st["asked"] += 1; continue
+        st["best_right"] += d["best"] == k
+        if d["confident"]:
+            st["conf"] += 1; st["conf_right"] += d["best"] == k; st["shown_right"] += d["best"] == k
+        else:
+            st["unsure"] += 1; st["unsure_best_right"] += d["best"] == k
+            inopt = k in [x["code"] for x in d["options"]]; st["unsure_in_options"] += inopt; st["shown_right"] += inopt
+    F["answer"] = st
     tm = json.load(open(ROOT / "data/train_meta.json"))["counts"]
     v1 = json.load(open(ROOT / "data/train_runs/ft-v1/meta.json"))
     v1usd = [x for x in led["lines"] if x["what"].startswith("Fine-tune: ft-v1 ")][0]["usd"]

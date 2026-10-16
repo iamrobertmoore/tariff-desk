@@ -152,15 +152,13 @@ function renderChips() {
 let busy = false, mine = null;
 let tunedCells = null, baseCells = null;
 
-function verdictFor(side) {
-  if (!side) return { cls: "warn", lamp: "yellow", word: "NO ANSWER", text: "The untrained model didn't answer in time." };
-  if (side.need) return { cls: "warn", lamp: "yellow", word: "NEEDS A FACT", text: `Asks: <b>${esc(side.need)}</b>` };
-  if (side.check.valid && side.band === "strong") return { cls: "ok", lamp: "green", word: "WELL BACKED", text: `A real line in the US schedule, used in <b>${side.backing}</b> of the 12 most similar past rulings. Duty: <b>${esc(side.check.duty)}</b>.` };
-  if (side.check.valid && side.band === "some") return { cls: "warn", lamp: "yellow", word: "CHECK IT", text: `A real line in the US schedule, but only <b>${side.backing}</b> of the 12 most similar past rulings used it. Check it before you ship. Duty: <b>${esc(side.check.duty)}</b>.` };
-  if (side.check.valid && side.band === "none") return { cls: "bad", lamp: "red", word: "UNBACKED", text: `A real line in the US schedule, but none of the 12 most similar past rulings used it. Ask a customs broker. Duty: <b>${esc(side.check.duty)}</b>.` };
-  if (side.check.valid) return { cls: "ok", lamp: "green", word: "REAL CODE", text: `A real line in the US schedule. Duty: <b>${esc(side.check.duty)}</b>.` };
-  if (side.code) return { cls: "bad", lamp: "red", word: "NOT A REAL CODE", text: `<b>${side.code}</b> doesn't exist in the current US schedule. A parcel declared with it gets queried.` };
-  return { cls: "bad", lamp: "red", word: "NO CODE", text: "It didn't give a code." };
+function baseVerdict(side, tunedAsked) {
+  if (!side) return { cls: "warn", text: "The untrained model didn't answer in time." };
+  if (side.need && !side.code) return { cls: "warn", text: `It asked: <b>${esc(side.need)}</b>` };
+  if (tunedAsked && side.code) return { cls: "bad", text: `It guessed <b>${esc(side.code)}</b> for a description that doesn't say what the item is or what it's made of.` };
+  if (side.check && side.check.valid) return { cls: "warn", text: `It answered <b>${esc(side.code)}</b>, a real line in the schedule.` };
+  if (side.code) return { cls: "bad", text: `<b>${esc(side.code)}</b> doesn't exist in the US schedule.` };
+  return { cls: "bad", text: "It didn't give a code." };
 }
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
@@ -168,7 +166,7 @@ $("#ask").addEventListener("submit", async (e) => {
   e.preventDefault();
   if (busy) return;
   const text = $("#q").value.trim(); if (text.length < 3) return;
-  busy = true; $("#go").disabled = true; $("#hint").className = "hint"; $("#hint").textContent = "Asking the model…";
+  busy = true; $("#go").disabled = true; $("#hint").className = "hint"; $("#hint").textContent = "Reading past rulings and asking the model. This takes about 10 seconds.";
   if (!mine) { mine = makeRow(true); rowsEl.prepend(mine.row); }
   mine.code.forEach((c) => c.color(""));
   setStatus(mine, "yellow", "CHECKING", "");
@@ -186,59 +184,79 @@ $("#ask").addEventListener("submit", async (e) => {
     busy = false; $("#go").disabled = false; return;
   }
   spinning = false; await spin; await goodsP;
-  const tv = verdictFor(res.tuned), bv = verdictFor(res.base);
-  if (res.tuned.need && res.base && res.base.code) {
-    bv.cls = "bad"; bv.text = `It guessed <b>${esc(res.base.code)}</b> for a description that doesn't say what the item is or what it's made of.`;
+  const A = res.answer;
+  if (A.kind === "ask") {
+    await setText(mine.code, fmtCode("MORE DETAIL"), { stagger: 60 });
+    mine.code.forEach((c) => c.color("warn"));
+    setStatus(mine, "yellow", "ONE QUESTION", A.question);
+  } else {
+    await setText(mine.code, fmtCode(A.best || ""), { stagger: 60 });
+    mine.code.forEach((c) => c.color(A.confident ? "ok" : "warn"));
+    setStatus(mine, A.confident ? "green" : "yellow", A.confident ? "READY" : "PICK ONE", A.confident ? `duty ${res.duty}` : "best guess, see options");
   }
-  const codeText = res.tuned.code ? res.tuned.code : "MORE DETAIL";
-  await setText(mine.code, fmtCode(codeText), { stagger: 60 });
-  mine.code.forEach((c) => c.color(tv.cls));
-  setStatus(mine, tv.lamp, tv.word, res.tuned.check.valid ? `duty ${res.tuned.check.duty}` + (res.tuned.backing != null ? ` · ${res.tuned.backing} of 12 rulings` : "") : "");
-  $("#hint").textContent = res.cached ? "Answered earlier, so this one came straight from the saved answer." : `Answered live in ${(res.tuned.ms / 1000).toFixed(1)}s.`;
-  showResult(res, tv, bv);
+  $("#hint").textContent = res.cached ? "This one was asked before, so the answer came straight from the saved copy." : `Answered live in ${(res.tuned.ms / 1000).toFixed(1)}s.`;
+  showResult(res);
   busy = false; $("#go").disabled = false;
 });
 
-async function showResult(res, tv, bv) {
-  const box = $("#result"); box.hidden = false;
+function fillLabel(text, code, duty, words, stamp, held) {
+  $("#lDesc").textContent = text;
+  $("#lCode").textContent = code || "—";
+  $("#lDuty").textContent = duty || "?";
+  $("#lPath").textContent = words || "";
+  const st = $("#stamp"); st.classList.remove("on", "held"); st.textContent = stamp; if (held) st.classList.add("held");
+  setTimeout(() => st.classList.add("on"), reduce ? 0 : 500);
+  $("#copy").disabled = !code;
+}
+
+async function showResult(res) {
+  const A = res.answer, box = $("#result"); box.hidden = false;
   if (!tunedCells) { tunedCells = flapRow($("#tunedFlaps"), CODE, [4, 7], DIGITS); baseCells = flapRow($("#baseFlaps"), CODE, [4, 7], DIGITS); }
   [...tunedCells, ...baseCells].forEach((c) => c.color(""));
-  $("#tunedVerdict").innerHTML = ""; $("#baseVerdict").innerHTML = "";
-  const bcode = res.base ? (res.base.code || (res.base.need ? "MORE DETAIL" : "")) : "";
-  await Promise.all([
-    setText(tunedCells, fmtCode(res.tuned.code || "MORE DETAIL"), { stagger: 50 }),
-    setText(baseCells, fmtCode(bcode), { stagger: 50 }),
-  ]);
-  tunedCells.forEach((c) => c.color(tv.cls));
-  // colour the untrained row from its first digit that differs from the tuned answer
-  const a = (res.tuned.code || ""), b = bcode;
-  let div = [...b].findIndex((ch, i) => ch !== a[i]); if (div < 0) div = b.length;
-  baseCells.forEach((c, i) => c.color(i < b.length ? (bv.cls === "ok" && i < div ? "ok" : bv.cls === "ok" ? "warn" : bv.cls) : ""));
-  $("#tunedVerdict").innerHTML = tv.text; $("#baseVerdict").innerHTML = bv.text;
-  // the label
+  $("#options").hidden = true; $("#optList").innerHTML = "";
   const lab = $("#label"); lab.style.animation = "none"; void lab.offsetWidth; lab.style.animation = "";
-  const st = $("#stamp"); st.classList.remove("on", "held");
-  if (res.tuned.check.valid) {
-    const path = res.tuned.check.path.filter((p) => p !== "Other");
-    $("#lDesc").textContent = res.text;
-    $("#lCode").textContent = res.tuned.code;
-    $("#lDuty").textContent = res.tuned.check.duty;
-    $("#lPath").textContent = path.join(" › ") || res.tuned.check.heading;
-    st.textContent = res.tuned.band === "strong" ? "Well backed" : res.tuned.band === "some" ? "Check it" : res.tuned.band === "none" ? "Unbacked" : "Real code";
-    if (res.tuned.band === "some" || res.tuned.band === "none") st.classList.add("held");
+  if (A.kind === "ask") {
+    $("#aTitle").textContent = "One question first";
+    $("#aSentence").innerHTML = `Your description doesn't say enough to pick a code. <b>${esc(A.question)}</b> Add that and ask again.`;
+    await setText(tunedCells, fmtCode("MORE DETAIL"), { stagger: 40 }); tunedCells.forEach((c) => c.color("warn"));
+    fillLabel(res.text, "", "", "Waiting for one more detail", "Not yet", true);
+    $("#q").focus();
+  } else if (A.confident) {
+    $("#aTitle").textContent = "Your code";
+    $("#aSentence").innerHTML = `<b>${A.backing}</b> of the 12 most similar US Customs rulings used this code. Duty: <b>${esc(res.duty)}</b>.`;
+    await setText(tunedCells, fmtCode(A.best), { stagger: 50 }); tunedCells.forEach((c) => c.color("ok"));
+    fillLabel(res.text, A.best, res.duty, res.words, "Ready", false);
   } else {
-    $("#lDesc").textContent = res.text; $("#lCode").textContent = "—"; $("#lDuty").textContent = "?";
-    $("#lPath").textContent = res.tuned.need ? "Tell it: " + res.tuned.need : "No valid code";
-    st.textContent = "Held"; st.classList.add("held");
+    $("#aTitle").textContent = "Best guess, but check it";
+    const why = A.swapped
+      ? `It first picked a code for a different material, but your description says ${A.materials.join(" and ")}, so this is the schedule line for things made of that.`
+      : A.backing ? `Only ${A.backing} of the 12 most similar US Customs rulings used this code.` : "None of the 12 most similar US Customs rulings used this code.";
+    $("#aSentence").innerHTML = why;
+    await setText(tunedCells, fmtCode(A.best || ""), { stagger: 50 }); tunedCells.forEach((c) => c.color("warn"));
+    const first = A.options[0] || {};
+    fillLabel(res.text, A.best, first.duty, first.words, "Check it", true);
+    $("#optList").innerHTML = A.options.map((o, i) =>
+      `<button type="button" class="opt${i === 0 ? " on" : ""}" data-i="${i}"><code>${o.code}</code><span>${esc(o.words || "")}${i === 0 ? '<span class="tag">best guess</span>' : ""}</span><span class="d">duty ${esc(o.duty)}</span></button>`).join("");
+    $("#options").hidden = false;
+    $("#optList").onclick = async (ev) => {
+      const b = ev.target.closest(".opt"); if (!b) return;
+      const o = A.options[+b.dataset.i];
+      document.querySelectorAll(".opt").forEach((x) => x.classList.toggle("on", x === b));
+      $("#aTitle").textContent = "Your pick";
+      await setText(tunedCells, fmtCode(o.code), { stagger: 30 }); tunedCells.forEach((c) => c.color("ok"));
+      fillLabel(res.text, o.code, o.duty, o.words, "Your pick", false);
+      if (mine) { await setText(mine.code, fmtCode(o.code), { stagger: 30 }); mine.code.forEach((c) => c.color("ok")); setStatus(mine, "green", "READY", `duty ${o.duty}`); }
+    };
   }
+  // the untrained comparison, behind a fold
+  const b = res.base ? (res.base.code || (res.base.need ? "MORE DETAIL" : "")) : "";
+  const bv = baseVerdict(res.base, A.kind === "ask");
+  setText(baseCells, fmtCode(b), { stagger: 30 }).then(() => baseCells.forEach((c, i) => c.color(i < b.length ? bv.cls : "")));
+  $("#baseVerdict").innerHTML = bv.text;
   if (res.precedents && res.precedents.length) {
-    $("#prec").hidden = false;
     $("#precList").innerHTML = res.precedents.map(([g, c]) =>
-      `<li><span>${esc(g)}</span><code class="${c === res.tuned.code ? "hit" : ""}">${esc(c)}</code></li>`).join("");
+      `<li><span>${esc(g)}</span><code class="${c === A.best ? "hit" : ""}">${esc(c)}</code></li>`).join("");
   }
-  $("#reason").textContent = res.tuned.reasoning || (res.tuned.need ? "It asked instead of guessing: " + res.tuned.need : "");
-  $("#copy").disabled = !res.tuned.check.valid;
-  setTimeout(() => st.classList.add("on"), reduce ? 0 : 950);
   box.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "nearest" });
 }
 

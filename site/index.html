@@ -41,18 +41,14 @@
   </section>
 
   <section class="result" id="result" hidden aria-live="polite">
-    <div class="pair">
-      <div class="lane tuned">
-        <h2>Tariff Desk</h2>
-        <p class="who" id="tunedWho">Qwen3-8B, fine-tuned on CBP rulings</p>
-        <div class="code-flaps" id="tunedFlaps"></div>
-        <p class="verdict" id="tunedVerdict"></p>
-      </div>
-      <div class="lane base">
-        <h2>The same model, untrained</h2>
-        <p class="who">Qwen3-8B, same prompt, same rulings to read</p>
-        <div class="code-flaps small" id="baseFlaps"></div>
-        <p class="verdict" id="baseVerdict"></p>
+    <div class="answer">
+      <h2 id="aTitle">Your code</h2>
+      <div class="code-flaps" id="tunedFlaps"></div>
+      <p class="verdict" id="aSentence"></p>
+      <div class="options" id="options" hidden>
+        <h3>Which of these is closest to your item?</h3>
+        <div class="opt-list" id="optList"></div>
+        <p class="small-print">Not sure? Add what it's made of and what it's for to your description and ask again.</p>
       </div>
     </div>
 
@@ -68,13 +64,20 @@
         <button id="copy" type="button">Copy the customs line</button>
         <span class="copied" id="copied" hidden>Copied</span>
       </div>
-      <div class="stamp" id="stamp">Real code</div>
+      <div class="stamp" id="stamp">Ready</div>
     </article>
-    <section class="prec" id="prec" hidden>
-      <h3>Past US Customs rulings it read first</h3>
+
+    <details class="more" id="compare">
+      <summary>How the same model did without the training</summary>
+      <p class="who">Qwen3-8B, untrained, same prompt, same rulings to read</p>
+      <div class="code-flaps small" id="baseFlaps"></div>
+      <p class="verdict" id="baseVerdict"></p>
+    </details>
+    <details class="more" id="prec">
+      <summary>The past US Customs rulings it read first</summary>
       <ul id="precList"></ul>
-    </section>
-    <details class="why"><summary>Why this code</summary><p id="reason"></p><p class="small-print">The duty and the description come from the US tariff schedule (USITC), not from the model. Check anything high-value with a customs broker.</p></details>
+    </details>
+    <p class="small-print center">The duty and the schedule wording come from the official US tariff schedule (USITC), never from the model. For anything high-value, check with a customs broker.</p>
   </section>
 
   <section class="numbers" aria-labelledby="n-title">
