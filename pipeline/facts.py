@@ -75,6 +75,8 @@ def build(o):
     v1usd = [x for x in led["lines"] if x["what"].startswith("Fine-tune: ft-v1 ")][0]["usd"]
     F["train"] = {**tm, "ruling_fmt": f"{tm['ruling']:,}", "listing_fmt": f"{tm['listing']:,}",
                   "v1_minutes": round(v1["seconds"] / 60), "v1_usd": f"{v1usd:.2f}"}
+    # the plain-code answer rules, measured on realistic listings (qa/run.py; data/qa.json)
+    if (ROOT / "data/qa.json").exists(): F["qa"] = json.load(open(ROOT / "data/qa.json"))
     json.dump(F, open(ROOT / "data/facts.json", "w"), indent=1)
     print(json.dumps(flat(F), indent=0)[:3000])
 

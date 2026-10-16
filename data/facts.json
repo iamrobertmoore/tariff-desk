@@ -487,14 +487,14 @@
   }
  },
  "answer": {
-  "best_right": 96,
-  "conf": 78,
+  "best_right": 100,
+  "conf": 77,
   "conf_right": 42,
-  "unsure": 275,
-  "unsure_best_right": 54,
-  "unsure_in_options": 93,
+  "unsure": 276,
+  "unsure_best_right": 58,
+  "unsure_in_options": 95,
   "asked": 0,
-  "shown_right": 135
+  "shown_right": 137
  },
  "train": {
   "ruling": 16840,
@@ -505,5 +505,20 @@
   "listing_fmt": "2,000",
   "v1_minutes": 32,
   "v1_usd": "7.22"
+ },
+ "qa": {
+  "holdout_n": 26,
+  "holdout_coded": 25,
+  "holdout_old_best": 14,
+  "holdout_first_best": 18,
+  "holdout_best": 22,
+  "holdout_old_shown": 22,
+  "holdout_shown": 25,
+  "unseen_old_best": 96,
+  "makers_old_best": 12,
+  "makers_best": 15,
+  "makers_old_shown": 15,
+  "makers_shown": 18,
+  "tuned_n": 34
  }
 }

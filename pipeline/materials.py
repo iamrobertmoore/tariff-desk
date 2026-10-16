@@ -14,9 +14,10 @@ MATERIALS = {
     "plastic": (r"\b(plastic|acrylic|polypropylene|polyethylene|pvc|polycarbonate|resin|vinyl|abs)\b", {39}),
     "glass":   (r"\b(glass)\b", {70}),
     "ceramic": (r"\b(ceramic|porcelain|stoneware|earthenware|terracotta|pottery|bone china)\b", {69}),
-    "textile": (r"\b(cotton|linen|wool|woollen|merino|polyester|nylon|silk|fabric|felt|knit|knitted|knitting|crochet(ed)?|woven|velvet|denim|yarn|muslin|jute|hemp)\b", set(range(50, 64))),
+    "textile": (r"\b(cotton|linen|wool|woollen|merino|polyester|nylon|silk|fabric|felt|knit|knitted|knitting|crochet(ed)?|velvet|denim|yarn|muslin|jute|hemp)\b", set(range(50, 64))),
     "leather": (r"\b(leather|cowhide|suede)\b", {41, 42, 43}),
     "paper":   (r"\b(paper|card|cardboard|paperboard|chipboard)\b", {47, 48, 49}),
+    "concrete": (r"\b(concrete|cement|jesmonite)\b", {68}),
 }
 # Chapters that classify by what the thing is, whatever it's made of: no conflict is called there.
 NEUTRAL = {33, 34, 64, 65, 66, 67, 71, 84, 85, 87, 90, 91, 92, 94, 95, 96, 97, 42}
@@ -31,6 +32,7 @@ RESIDUAL = {
     "textile": ("6307.90.9891", "Other made up textile articles"),
     "leather": ("4205.00.8000", "Other articles of leather"),
     "paper":   ("4823.90.8600", "Other articles of paper or paperboard"),
+    "concrete": ("6810.99.0080", "Other articles of cement or concrete"),
 }
 
 def materials(text):

@@ -41,7 +41,7 @@ What I take from it:
 - **Past rulings do the heavy lifting on accuracy.** Given the same rulings, the untrained 8B gets close to the fine-tuned one on exact matches; the difference (+1.1 points, 95% interval -1.4 to +3.7) sits inside the noise. What the fine-tune adds there is behaviour: it asks instead of guessing on 13 of 15 vague listings, where the untrained model, given the same rulings, asks on 0.
 - **The big model is better, and costs more.** Qwen3.5-397B with the same rulings gets 117. Per code it costs about 8 times as much at Tinker's published prices.
 
-**One answer, or one question.** The page shows a code when it's confident: at least 3 of the 12 similar rulings used it and it doesn't contradict a material the seller named. That happened 78 times on the unseen set, and 42 matched CBP's ruling. When it isn't sure, it shows its best guess and asks "which of these is closest to your item?" with up to five codes in the schedule's own words; the right code was in that list 93 times out of 275. Altogether the right code was on screen for 135 of 353. A plain-code material check stops a wooden item getting a metal code, and offers the schedule's "other articles of wood" line instead (`pipeline/answer.py`, `pipeline/materials.py`).
+**One answer, or one question.** The page shows a code when it's confident: at least 3 of the 12 similar rulings used it and it doesn't contradict a material the seller named. That happened 77 times on the unseen set, and 42 matched CBP's ruling. When it isn't sure, it shows its best guess and asks "which of these is closest to your item?" with up to five codes in the schedule's own words; the right code was in that list 95 times out of 276. Altogether the right code was on screen for 137 of 353. A few plain-code rules sit on top (`pipeline/answer.py`, `pipeline/materials.py`): a wooden item never leads with a metal or raw-timber code, oak doesn't get the bamboo line, and headings whose own wording settles it (dog coats "of any material" in 4201, greeting cards, wooden picture frames, toys) win over the model. They took the lead answer from 96 to 100 exact codes on the unseen set and from 12 to 15 of 34 on the maker listings. On 26 realistic listings in `qa/` the lead answer had the right heading on 22 of 25 (the old page: 14; I fixed bugs these listings exposed, so treat that as a sanity check, not a clean test).
 
 ## How it works
 
@@ -68,7 +68,7 @@ Everything, from building the answer key to both fine-tunes and all the comparis
 ## Limits
 
 - An exact code on about a quarter of rulings is a start, not a broker. The page says how well each answer is backed and points high-value items to a customs broker.
-- The precedent library only holds rulings whose code still exists in today's schedule, so some old but relevant rulings are missing. That's why the model got my own wooden curtain poles wrong (it found rulings for metal and plastic rods); the material check now catches it and offers the right line.
+- The precedent library only holds rulings whose code still exists in today's schedule, so some old but relevant rulings are missing. That's why the model got my own wooden curtain poles wrong (it found rulings for metal and plastic rods); the material rules now catch it and lead with the right line.
 - US only, and only the classification: no landed-cost calculation, and no Section 232 or other additional duties.
 
 ## Run it yourself
