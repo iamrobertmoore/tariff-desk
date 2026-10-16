@@ -228,8 +228,10 @@ async function showResult(res) {
     fillLabel(res.text, A.best, res.duty, res.words, "Ready", false);
   } else {
     $("#aTitle").textContent = "Best guess, but check it";
-    const why = A.swapped
+    const why = A.swapped && A.material_conflict
       ? `It first picked a code for a different material, but your description says ${A.materials.join(" and ")}, so this is the schedule line for things made of that.`
+      : A.swapped
+      ? `No similar US Customs ruling used the code it first picked (${esc(A.model_code)}), so this is the schedule's line for things made of ${A.materials.join(" and ")}.`
       : A.backing ? `Only ${A.backing} of the 12 most similar US Customs rulings used this code.` : "None of the 12 most similar US Customs rulings used this code.";
     $("#aSentence").innerHTML = why;
     await setText(tunedCells, fmtCode(A.best || ""), { stagger: 50 }); tunedCells.forEach((c) => c.color("warn"));

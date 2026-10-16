@@ -30,7 +30,9 @@ def decide(text, code, need, context, hts, headings):
     conf, mats = materials.conflict(text, code)
     best = code if (code and code in hts) else None
     swapped = False
-    if conf:
+    # The model's code contradicts a named material, or no similar ruling backs it while the seller named a
+    # material: lead with the schedule's catch-all line for that material ("other articles of wood").
+    if conf or (backing == 0 and mats):
         for m in mats:
             rc = materials.RESIDUAL[m][0]
             if rc in hts:
@@ -38,8 +40,8 @@ def decide(text, code, need, context, hts, headings):
                 break
     confident = bool(best) and not conf and backing >= 3
     cands = []
-    for c in ([best, code] + [c for c, _ in collections.Counter(prec).most_common()] +
-              [materials.RESIDUAL[m][0] for m in mats]):
+    for c in ([best, code] + [materials.RESIDUAL[m][0] for m in mats] +
+              [c for c, _ in collections.Counter(prec).most_common()]):
         if c and c in hts and c not in cands: cands.append(c)
     cands = cands[:5]
     return {"kind": "code", "best": best, "model_code": code, "confident": confident, "backing": backing,

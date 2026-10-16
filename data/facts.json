@@ -492,9 +492,9 @@
   "conf_right": 42,
   "unsure": 275,
   "unsure_best_right": 54,
-  "unsure_in_options": 83,
+  "unsure_in_options": 93,
   "asked": 0,
-  "shown_right": 125
+  "shown_right": 135
  },
  "train": {
   "ruling": 16840,
