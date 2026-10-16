@@ -80,6 +80,23 @@
     <p class="small-print center">The duty and the schedule wording come from the official US tariff schedule (USITC); the model only picks the code. For anything high-value, check with a customs broker.</p>
   </section>
 
+  <section class="batch" aria-labelledby="b-title">
+    <h2 id="b-title">Check a whole list</h2>
+    <p class="lede">Paste up to 25 products, one per line, or copy two columns straight from your spreadsheet: your product reference, then the description. You get every code back, with the ones a person should look at marked.</p>
+    <textarea id="bList" rows="6" spellcheck="false" placeholder="SKU-014&#9;Hand-poured soy candle in a reused glass jar, 200g&#10;SKU-022&#9;Hand-knitted scarf, 100% merino wool&#10;SKU-031&#9;Birthday cards with envelopes, pack of 6"></textarea>
+    <div class="b-actions">
+      <button type="button" id="bGo">Check the list</button>
+      <label class="b-file">or open a CSV<input type="file" id="bFile" accept=".csv,.tsv,.txt"></label>
+      <span class="b-hint" id="bHint"></span>
+    </div>
+    <div class="b-out" id="bOut" hidden>
+      <div class="b-sum" id="bSum"></div>
+      <label class="b-only"><input type="checkbox" id="bOnly"> Show only the ones to check</label>
+      <div class="b-wrap"><table class="b-table"><thead><tr><th>Ref</th><th>Product</th><th>Code</th><th>Status</th><th>Why</th></tr></thead><tbody id="bRows"></tbody></table></div>
+      <button type="button" class="b-dl" id="bDl">Download the results (CSV)</button>
+    </div>
+  </section>
+
   <section class="numbers" aria-labelledby="n-title">
     <h2 id="n-title">Tested on rulings it has never seen</h2>
     <p class="lede" id="nLede">Every code below is marked against a binding ruling that US Customs issued between June and August 2026, after the training data was collected.</p>

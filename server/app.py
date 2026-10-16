@@ -135,6 +135,74 @@ async def classify(req: Request):
     if len(CACHE) < 5000: CACHE[k] = out
     return finalize(dict(out))
 
+# ---------- a whole list at once (asked for by a seller with ~180 listings) ----------
+BATCH_MAX, BATCH_LIMIT = 25, 4          # rows per list, lists per IP per hour
+bhits = defaultdict(deque)
+NOTES = {
+    "conflict": "The model first picked a code for a different material; this is the line for the material named.",
+    "raw": "The model first picked a raw-material line; this is the line for finished goods of that material.",
+    "unbacked": "No similar ruling used the model's first pick; this is the catch-all line for the material named.",
+    "species": "The model first picked the line for a different kind of wood; this is the same line for the wood named.",
+    "heading": "The schedule has a heading written for this kind of item, so its line comes ahead of the model's first pick.",
+    "adult": "The model first picked a children's toy line, but the description says it's for adults.",
+    "set": "A set of different things: US Customs classifies a retail set by the item that gives it its main character.",
+    "invalid": "The model's first pick isn't a real code; this is the closest real line.",
+}
+
+def row_result(ref, text, out):
+    a = out["answer"]
+    if a["kind"] == "ask":
+        return {"ref": ref, "text": text, "status": "detail", "code": "", "words": "", "duty": "",
+                "note": "Needs more detail: " + a["question"], "example": ""}
+    note = NOTES.get(a.get("reason") or "", "")
+    if a.get("confident"): status, note = "ready", note or f"{a['backing']} of the 12 most similar rulings used this code."
+    else: status = "check"; note = note or (f"Only {a['backing']} of the 12 most similar rulings used this code." if a.get("backing") else "No similar ruling used this code.")
+    opts = [o["code"] for o in a.get("options", [])[1:4]]
+    return {"ref": ref, "text": text, "status": status, "code": a.get("best") or "", "words": out.get("words") or "",
+            "duty": out.get("duty") or "", "note": note, "example": a.get("example") or "", "also": opts}
+
+async def tuned_only(c, text):
+    """One row of a list: the fine-tuned model only (no comparison call), same precedents, same rules."""
+    k = ckey(text)
+    if k in CACHE: return finalize(dict(CACHE[k], cached=True))
+    context = precedents.block(LIBRARY, HTS, f"What is the HTS US Code for this product? {text}")
+    tuned = await ask(c, CONFIG["tuned"], text, context)
+    if tuned.get("need") and answer.needs_code_anyway(text, tuned["need"]):
+        again = await ask(c, CONFIG["tuned"], text, context, prefill="HTS US Code ->")
+        if again.get("code"): tuned = dict(again, asked_first=tuned["need"])
+    all_prec = [l[2:].rsplit(" -> ", 1) for l in context.split("\n") if l.startswith("- ") and " -> " in l]
+    if tuned.get("code"): tuned["backing"] = sum(1 for _, x in all_prec if x == tuned["code"])
+    out = {"text": text, "tuned": tuned, "base": None, "precedents": all_prec[:5], "model": {"tuned": CONFIG["label"], "base": CONFIG["base"]}}
+    return finalize(dict(out))
+
+@app.post("/api/batch")
+async def batch(req: Request):
+    body = await req.json()
+    rows = []
+    for i, r in enumerate(body.get("items", [])[:BATCH_MAX]):
+        text = re.sub(r"\s+", " ", str(r.get("text", ""))).strip()[:600]
+        if len(text) >= 3: rows.append((str(r.get("ref") or i + 1)[:40], text))
+    if not rows: raise HTTPException(400, "Paste at least one product description.")
+    ip = req.headers.get("x-forwarded-for", req.client.host if req.client else "?").split(",")[0]
+    q = bhits[ip]; now = time.time()
+    while q and now - q[0] > WINDOW: q.popleft()
+    if len(q) >= BATCH_LIMIT: raise HTTPException(429, "That's 4 lists in an hour from you. Try again a bit later.")
+    new = sum(1 for _, t in rows if ckey(t) not in CACHE)
+    today = time.strftime("%Y-%m-%d")
+    if day["date"] != today: day.update(date=today, n=0)
+    if day["n"] + new > DAILY_CAP or spent["calls"] + new > TOTAL_CAP:
+        raise HTTPException(503, "The free classifications for today are used up. Try again tomorrow.")
+    q.append(now); day["n"] += new; spent["calls"] += new
+    sem = asyncio.Semaphore(5)
+    async with httpx.AsyncClient() as c:
+        async def one(ref, text):
+            async with sem:
+                try: return row_result(ref, text, await tuned_only(c, text))
+                except Exception:
+                    return {"ref": ref, "text": text, "status": "error", "code": "", "words": "", "duty": "", "note": "The model didn't answer; try this one again.", "example": ""}
+        results = await asyncio.gather(*(one(r, t) for r, t in rows))
+    return {"rows": results}
+
 @app.get("/api/meta")
 def meta():
     return JSONResponse(json.load(open(HERE / "public_meta.json")))

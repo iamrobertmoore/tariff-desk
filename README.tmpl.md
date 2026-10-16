@@ -16,6 +16,7 @@ Tariff Desk is the tool I wanted: type the item the way you'd write it in a list
 | [Open the page](https://tariff-desk.onrender.com) and click **Soy candle** | The board flips to 3406.00.0000, backed by 12 of the 12 most similar past rulings, duty Free |
 | Click **"Handmade gift"** | It asks what the item is and what it's made of, while the untrained model invents a code |
 | Click **My curtain pole** | It's not sure, so it shows its best guess (other articles of wood, 4421.99.9880) and asks which code on its short list is closest |
+| Paste a few rows from your spreadsheet into **Check a whole list** | Every code comes back marked ready, check it, or needs detail, with the reason and a past ruling, and downloads as a CSV |
 
 ## The problem, in numbers
 

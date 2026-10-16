@@ -281,3 +281,70 @@ function tick() {
 }
 tick(); setInterval(tick, 10000);
 document.fonts.ready.then(initBoard);
+
+/* ---------- a whole list ---------- */
+(() => {
+  const area = $("#bList"), go = $("#bGo"), hint = $("#bHint"), out = $("#bOut");
+  let last = [];
+  const csvSplit = (line) => { const r = []; let cur = "", q = false;
+    for (let i = 0; i < line.length; i++) { const ch = line[i];
+      if (q) { if (ch === '"' && line[i + 1] === '"') { cur += '"'; i++; } else if (ch === '"') q = false; else cur += ch; }
+      else if (ch === '"') q = true; else if (ch === ",") { r.push(cur); cur = ""; } else cur += ch; }
+    r.push(cur); return r.map((x) => x.trim()); };
+  const parse = (txt, isCsv) => {
+    const rows = [];
+    txt.split(/\r?\n/).forEach((line, i) => {
+      if (!line.trim()) return;
+      let cells = line.includes("\t") ? line.split("\t").map((x) => x.trim()) : (isCsv ? csvSplit(line) : [line.trim()]);
+      cells = cells.filter((x) => x !== "");
+      if (!cells.length) return;
+      if (rows.length === 0 && /^(ref|sku|id|reference|product|description|title)$/i.test(cells[0]) && cells.length > 1) return; // header row
+      let ref = "", text = cells.join(", ");
+      if (cells.length > 1 && cells[0].length <= 40) { ref = cells[0]; text = cells.slice(1).join(", "); }
+      rows.push({ ref: ref || String(rows.length + 1), text });
+    });
+    return rows;
+  };
+  $("#bFile").addEventListener("change", async (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    const t = await f.text();
+    const rows = parse(t, true);
+    area.value = rows.map((r) => `${r.ref}\t${r.text}`).join("\n");
+    hint.textContent = `${rows.length} products from ${f.name}.`;
+  });
+  const STATUS = { ready: "READY", check: "CHECK IT", detail: "NEEDS DETAIL", error: "TRY AGAIN" };
+  const render = (rows) => {
+    const n = (s) => rows.filter((r) => r.status === s).length;
+    $("#bSum").innerHTML = `<span>${rows.length} checked</span><span style="color:var(--green)">${n("ready")} ready</span><span style="color:var(--yellow)">${n("check")} to check</span><span style="color:var(--red)">${n("detail") + n("error")} need more detail</span>`;
+    $("#bRows").innerHTML = rows.map((r) => `<tr class="${r.status}">
+      <td class="ref">${esc(r.ref)}</td><td>${esc(r.text)}</td>
+      <td class="code">${esc(r.code || "–")}${r.words ? `<small>${esc(r.words)}${r.duty ? ` · duty ${esc(r.duty)}` : ""}</small>` : ""}</td>
+      <td><span class="chip ${r.status}">${STATUS[r.status] || r.status}</span></td>
+      <td class="why">${esc(r.note || "")}${r.example ? `<em>A past ruling with this code: ${esc(r.example)}</em>` : ""}${r.also && r.also.length && r.status !== "ready" ? `<em>Also worth a look: ${r.also.map(esc).join(", ")}</em>` : ""}</td></tr>`).join("");
+    out.hidden = false;
+  };
+  $("#bOnly").addEventListener("change", (e) => out.classList.toggle("only", e.target.checked));
+  go.addEventListener("click", async () => {
+    const rows = parse(area.value, false);
+    if (!rows.length) { hint.textContent = "Paste at least one product first."; area.focus(); return; }
+    if (rows.length > 25) hint.textContent = `Checking the first 25 of ${rows.length}.`;
+    go.disabled = true; const t0 = performance.now();
+    hint.textContent = `Checking ${Math.min(rows.length, 25)} products. This takes a few seconds.`;
+    try {
+      const r = await fetch("api/batch", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ items: rows.slice(0, 25) }) });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.detail || "Something went wrong.");
+      last = j.rows; render(last);
+      hint.textContent = `Done in ${((performance.now() - t0) / 1000).toFixed(1)}s.`;
+    } catch (e) { hint.textContent = e.message; }
+    go.disabled = false;
+  });
+  $("#bDl").addEventListener("click", () => {
+    const q = (x) => `"${String(x ?? "").replace(/"/g, '""')}"`;
+    const head = ["ref", "description", "hts_code", "status", "us_duty_general_rate", "schedule_wording", "why", "example_ruling", "other_codes_to_consider"];
+    const lines = [head.join(",")].concat(last.map((r) => [r.ref, r.text, r.code, r.status, r.duty, r.words, r.note, r.example, (r.also || []).join(" ")].map(q).join(",")));
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([lines.join("\n")], { type: "text/csv" }));
+    a.download = "tariff-desk-results.csv"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  });
+})();

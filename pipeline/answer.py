@@ -145,7 +145,7 @@ def decide(text, code, need, context, hts, headings):
             break
     if best in CHILD_AGES and re.search(r"\badults?\b", text.lower()) and "9503.00.0090" in hts:
         best, swapped, reason = "9503.00.0090", True, "adult"
-    is_set = bool(re.search(MIXED_SET, text.lower()))
+    is_set = bool(re.search(MIXED_SET, text.lower())) and not (best or "").startswith("6308")   # 6308 is itself the line for needlecraft sets
     confident = bool(best) and best == code and not conf and not raw and backing >= 3 and not is_set
     if is_set and not reason: reason = "set"
     example = next((d.strip() for d, c in re.findall(r"^- (.+?) -> (\d{4}\.\d{2}\.\d{4})$", context.split("Schedule wording")[0], re.M) if c == best), None)
