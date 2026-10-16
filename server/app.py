@@ -56,8 +56,10 @@ def check(code):
 
 async def ask(client, model, text, context):
     t0 = time.time()
+    # The reply starts with "HTS US Code -> ..." or "Need -> ...", and the page only uses that first line, so
+    # stop at the first newline instead of generating the reasoning: same answer, about a third of the wait.
     r = await client.post(TINKER, headers={"Authorization": f"Bearer {KEY}"}, json={
-        "model": model, "prompt": prompt(text, context), "max_tokens": 300, "temperature": 0, "stop": ["<|im_end|>"]}, timeout=45)
+        "model": model, "prompt": prompt(text, context), "max_tokens": 80, "temperature": 0, "stop": ["<|im_end|>", "\n"]}, timeout=45)
     r.raise_for_status()
     out = r.json()["choices"][0]["text"].strip()
     code, need, reasoning = parse(out)
