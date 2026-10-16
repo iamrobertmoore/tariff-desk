@@ -1,0 +1,12 @@
+name: keep the live page warm
+# Render's free instance sleeps after 15 minutes idle, which makes a judge wait ~50 s.
+# A health check every 10 minutes keeps it awake. It costs nothing: /healthz never calls the model.
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl -fsS --max-time 90 https://tariff-desk.onrender.com/healthz
