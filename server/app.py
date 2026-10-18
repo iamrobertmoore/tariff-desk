@@ -161,10 +161,13 @@ def row_result(ref, text, out):
     return {"ref": ref, "text": text, "status": status, "code": a.get("best") or "", "words": out.get("words") or "",
             "duty": out.get("duty") or "", "note": note, "example": a.get("example") or "", "also": opts}
 
+BCACHE = {}   # list rows answered by the fine-tuned model alone (no comparison call), kept apart from CACHE
+
 async def tuned_only(c, text):
     """One row of a list: the fine-tuned model only (no comparison call), same precedents, same rules."""
     k = ckey(text)
     if k in CACHE: return finalize(dict(CACHE[k], cached=True))
+    if k in BCACHE: return finalize(dict(BCACHE[k], cached=True))
     context = precedents.block(LIBRARY, HTS, f"What is the HTS US Code for this product? {text}")
     tuned = await ask(c, CONFIG["tuned"], text, context)
     if tuned.get("need") and answer.needs_code_anyway(text, tuned["need"]):
@@ -173,6 +176,7 @@ async def tuned_only(c, text):
     all_prec = [l[2:].rsplit(" -> ", 1) for l in context.split("\n") if l.startswith("- ") and " -> " in l]
     if tuned.get("code"): tuned["backing"] = sum(1 for _, x in all_prec if x == tuned["code"])
     out = {"text": text, "tuned": tuned, "base": None, "precedents": all_prec[:5], "model": {"tuned": CONFIG["label"], "base": CONFIG["base"]}}
+    if len(BCACHE) < 5000: BCACHE[k] = out
     return finalize(dict(out))
 
 @app.post("/api/batch")
@@ -187,7 +191,7 @@ async def batch(req: Request):
     q = bhits[ip]; now = time.time()
     while q and now - q[0] > WINDOW: q.popleft()
     if len(q) >= BATCH_LIMIT: raise HTTPException(429, "That's 4 lists in an hour from you. Try again a bit later.")
-    new = sum(1 for _, t in rows if ckey(t) not in CACHE)
+    new = sum(1 for _, t in rows if ckey(t) not in CACHE and ckey(t) not in BCACHE)
     today = time.strftime("%Y-%m-%d")
     if day["date"] != today: day.update(date=today, n=0)
     if day["n"] + new > DAILY_CAP or spent["calls"] + new > TOTAL_CAP:
