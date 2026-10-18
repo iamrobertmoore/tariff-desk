@@ -5,7 +5,7 @@
 <p align="center"><b>Describe what you make. Get the 10-digit US customs code your parcel needs.</b><br>
 A small open model (Qwen3-8B) fine-tuned on Tinker, reading the US Customs rulings closest to your product before it answers.</p>
 
-<p align="center"><a href="https://tariff-desk.onrender.com">Try it</a> · <a href="#results">Results</a> · <a href="data/key">Answer key</a> · <a href="pipeline">Pipeline</a></p>
+<p align="center"><a href="https://tariff-desk.onrender.com">Try it</a> · <a href="https://www.youtube.com/watch?v=yvPn47J-nd8">90-second demo</a> · <a href="#results">Results</a> · <a href="data/key">Answer key</a> · <a href="pipeline">Pipeline</a></p>
 
 I've sold wooden curtain poles on Etsy since 2020. Since the US ended de minimis in August 2025, every parcel I send to an American buyer needs a tariff code, and since 9 July 2026 Etsy wants sellers outside the US to ship with the duties paid. Since 24 July 2026, CBP's postal entry process has asked for "all applicable 10-digit HTSUS classification(s)" on every mail entry. "Handmade gift" on the customs form doesn't cut it any more.
 
