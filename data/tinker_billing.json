@@ -1,0 +1,11 @@
+{
+ "source": "tinker -f json billing usage 2026-10-14T00:00:00Z 2026-10-18T18:00:00Z (estimated gross USD before credits)",
+ "through": "2026-10-18T00:00:00Z",
+ "by_type": {
+  "training": 11.13,
+  "sampling_prefill": 1.75,
+  "sampling_sample": 1.56,
+  "storage": 0.03
+ },
+ "total_usd": 14.47
+}

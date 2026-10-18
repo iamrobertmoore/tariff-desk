@@ -1,0 +1,7 @@
+{
+ "unseen_exact": 20,
+ "unseen_d4": 96,
+ "makers_exact": 1,
+ "makers_d4": 3,
+ "how": "top line of plain keyword (BM25) search over the schedule's own wording, using the description"
+}

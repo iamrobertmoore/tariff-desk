@@ -56,17 +56,17 @@
  "unseen.desk": {
   "n": 353,
   "exact": 100,
-  "d6": 133,
-  "d4": 174,
+  "d6": 134,
+  "d4": 176,
   "valid": 352,
-  "duty": 173,
+  "duty": 177,
   "asked": 1
  },
  "unseen.desk_conf": {
-  "n": 71,
-  "exact": 39,
-  "d4": 46,
-  "duty": 47
+  "n": 44,
+  "exact": 29,
+  "d4": 34,
+  "duty": 35
  },
  "makers.base": {
   "n": 34,
@@ -132,9 +132,9 @@
   "asked": 0
  },
  "makers.desk_conf": {
-  "n": 9,
-  "exact": 6,
-  "d4": 7,
-  "duty": 8
+  "n": 6,
+  "exact": 4,
+  "d4": 4,
+  "duty": 5
  }
 }

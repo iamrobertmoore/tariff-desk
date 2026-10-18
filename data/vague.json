@@ -1,0 +1,15 @@
+{
+ "vague_n": 60,
+ "clear_n": 98,
+ "tuned_asked_vague": 57,
+ "tuned_asked_vague_new": 44,
+ "tuned_asked_clear": 2,
+ "base_asked_vague": 3,
+ "base_asked_vague_new": 3,
+ "base_asked_clear": 0,
+ "big_asked_vague": 59,
+ "big_asked_vague_new": 44,
+ "discordant_tuned": 54,
+ "discordant_base": 0,
+ "mcnemar_p": 1.1102230246251565e-16
+}

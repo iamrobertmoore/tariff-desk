@@ -1,6 +1,6 @@
 """Turn the model's reply into what the seller sees. Plain code, used by the live page and by the scoring.
 
-- Confident: at least 3 of the 12 similar past rulings used the model's code, and the code's chapter
+- Confident: at least 4 of the 12 similar past rulings used the model's code, and the code's chapter
   doesn't contradict a material the seller named. Show the code.
 - Otherwise: show the best guess and ask "which of these is closest?", offering the model's code, the
   codes the past rulings used most, and the schedule's "other articles of <material>" line for any material
@@ -122,7 +122,7 @@ def decide(text, code, need, context, hts, headings):
     swapped, hinted, reason = False, False, None
     fixed = _species(text, best, hts) if best else best
     if fixed != best: best, swapped, reason = fixed, True, "species"
-    in_material = bool(code) and any(int(code[:2]) in materials.MATERIALS[m][1] for m in mats)
+    in_material = bool(code) and (int(code[:2]) in materials.NEUTRAL or any(int(code[:2]) in materials.MATERIALS[m][1] for m in mats))
     # The model's code contradicts a named material, sits on a raw-material line, or no similar ruling
     # backs it and it isn't even in the named material's chapters: lead with the best line in the
     # material's own chapters (falling back to "other articles of <material>").
@@ -146,7 +146,7 @@ def decide(text, code, need, context, hts, headings):
     if best in CHILD_AGES and re.search(r"\badults?\b", text.lower()) and "9503.00.0090" in hts:
         best, swapped, reason = "9503.00.0090", True, "adult"
     is_set = bool(re.search(MIXED_SET, text.lower())) and not (best or "").startswith("6308")   # 6308 is itself the line for needlecraft sets
-    confident = bool(best) and best == code and not conf and not raw and backing >= 3 and not is_set
+    confident = bool(best) and best == code and not conf and not raw and backing >= 4 and not is_set
     if is_set and not reason: reason = "set"
     example = next((d.strip() for d, c in re.findall(r"^- (.+?) -> (\d{4}\.\d{2}\.\d{4})$", context.split("Schedule wording")[0], re.M) if c == best), None)
     if example and len(example) > 120: example = example[:117].rsplit(" ", 1)[0] + "..."

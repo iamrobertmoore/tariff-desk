@@ -77,6 +77,17 @@ def build(o):
                   "v1_minutes": round(v1["seconds"] / 60), "v1_usd": f"{v1usd:.2f}"}
     # the plain-code answer rules, measured on realistic listings (qa/run.py; data/qa.json)
     if (ROOT / "data/qa.json").exists(): F["qa"] = json.load(open(ROOT / "data/qa.json"))
+    # heading/subheading accuracy, real codes, duty match and asks per run (qa/metrics.py); live speed and cost
+    if (ROOT / "data/metrics_extra.json").exists():
+        M = json.load(open(ROOT / "data/metrics_extra.json"))
+        F["m"] = {k.replace(".", "_"): v for k, v in M.items()}
+        for k, v in F["m"].items():
+            if v.get("n"):
+                for f in ("exact", "d4", "d6", "duty", "valid"):
+                    if f in v: v[f + "_pct"] = round(100 * v[f] / v["n"])
+    if (ROOT / "data/live.json").exists(): F["live"] = json.load(open(ROOT / "data/live.json"))
+    for k, f in (("vague", "vague.json"), ("billing", "tinker_billing.json"), ("kw", "keyword.json")):
+        if (ROOT / "data" / f).exists(): F[k] = json.load(open(ROOT / "data" / f))
     json.dump(F, open(ROOT / "data/facts.json", "w"), indent=1)
     print(json.dumps(flat(F), indent=0)[:3000])
 

@@ -488,13 +488,13 @@
  },
  "answer": {
   "best_right": 100,
-  "conf": 71,
-  "conf_right": 39,
-  "unsure": 282,
-  "unsure_best_right": 61,
-  "unsure_in_options": 100,
+  "conf": 44,
+  "conf_right": 29,
+  "unsure": 309,
+  "unsure_best_right": 71,
+  "unsure_in_options": 113,
   "asked": 0,
-  "shown_right": 139
+  "shown_right": 142
  },
  "train": {
   "ruling": 16840,
@@ -519,7 +519,13 @@
   "makers_best": 15,
   "makers_old_shown": 15,
   "makers_shown": 19,
-  "tuned_n": 34
+  "tuned_n": 34,
+  "fresh_n": 34,
+  "fresh_best": 22,
+  "fresh_shown": 29,
+  "fresh_conf": 5,
+  "fresh_conf_right": 4,
+  "fresh_bad_ask": 1
  },
  "m": {
   "unseen_base": {
@@ -609,25 +615,25 @@
   "unseen_desk": {
    "n": 353,
    "exact": 100,
-   "d6": 133,
-   "d4": 174,
+   "d6": 134,
+   "d4": 176,
    "valid": 352,
-   "duty": 173,
+   "duty": 177,
    "asked": 1,
    "exact_pct": 28,
-   "d4_pct": 49,
+   "d4_pct": 50,
    "d6_pct": 38,
-   "duty_pct": 49,
+   "duty_pct": 50,
    "valid_pct": 100
   },
   "unseen_desk_conf": {
-   "n": 71,
-   "exact": 39,
-   "d4": 46,
-   "duty": 47,
-   "exact_pct": 55,
-   "d4_pct": 65,
-   "duty_pct": 66
+   "n": 44,
+   "exact": 29,
+   "d4": 34,
+   "duty": 35,
+   "exact_pct": 66,
+   "d4_pct": 77,
+   "duty_pct": 80
   },
   "makers_base": {
    "n": 34,
@@ -728,13 +734,13 @@
    "valid_pct": 100
   },
   "makers_desk_conf": {
-   "n": 9,
-   "exact": 6,
-   "d4": 7,
-   "duty": 8,
+   "n": 6,
+   "exact": 4,
+   "d4": 4,
+   "duty": 5,
    "exact_pct": 67,
-   "d4_pct": 78,
-   "duty_pct": 89
+   "d4_pct": 67,
+   "duty_pct": 83
   }
  },
  "live": {
@@ -745,5 +751,38 @@
   "ratio": 9,
   "note": "10 unseen rulings each, code line only (as the live page asks), Tinker OAI endpoint, 16 Oct 2026; prices $0.195/$0.60 and $1.65/$7.50 per M tokens",
   "k5": "1.15"
+ },
+ "vague": {
+  "vague_n": 60,
+  "clear_n": 98,
+  "tuned_asked_vague": 57,
+  "tuned_asked_vague_new": 44,
+  "tuned_asked_clear": 2,
+  "base_asked_vague": 3,
+  "base_asked_vague_new": 3,
+  "base_asked_clear": 0,
+  "big_asked_vague": 59,
+  "big_asked_vague_new": 44,
+  "discordant_tuned": 54,
+  "discordant_base": 0,
+  "mcnemar_p": 1.1102230246251565e-16
+ },
+ "billing": {
+  "source": "tinker -f json billing usage 2026-10-14T00:00:00Z 2026-10-18T18:00:00Z (estimated gross USD before credits)",
+  "through": "2026-10-18T00:00:00Z",
+  "by_type": {
+   "training": 11.13,
+   "sampling_prefill": 1.75,
+   "sampling_sample": 1.56,
+   "storage": 0.03
+  },
+  "total_usd": 14.47
+ },
+ "kw": {
+  "unseen_exact": 20,
+  "unseen_d4": 96,
+  "makers_exact": 1,
+  "makers_d4": 3,
+  "how": "top line of plain keyword (BM25) search over the schedule's own wording, using the description"
  }
 }
