@@ -39,7 +39,7 @@ Every answer below is marked against one of **{{sets.unseen_n}} binding rulings 
 What I take from it:
 
 - **Fine-tuning taught the 8B the job.** On its own it went from {{runs.base.unseen.exact}} to {{runs.tuned_plain.unseen.exact}} exact codes (paired bootstrap over the {{sets.unseen_n}} rulings: +{{pairs.ft-v1_vs_base-qwen3-8b_unseen.exact.diff_pts}} points, 95% interval {{pairs.ft-v1_vs_base-qwen3-8b_unseen.exact.ci_text}}), and from {{runs.base.unseen.valid}} to {{runs.tuned_plain.unseen.valid}} real codes.
-- **Past rulings account for most of the accuracy.** Given the same rulings, the untrained 8B gets close to the fine-tuned one on exact matches; the difference (+{{pairs.ft-v2-lean_vs_base-qwen3-8b-rag_unseen.exact.diff_pts}} points, 95% interval {{pairs.ft-v2-lean_vs_base-qwen3-8b-rag_unseen.exact.ci_text}}) sits inside the noise. There, the fine-tune changes behaviour instead: it asks instead of guessing on {{runs.tuned.adversarial.ask_pass}} of {{sets.adv_ask_n}} vague listings, where the untrained model, given the same rulings, asks on {{runs.base_rag.adversarial.ask_pass}}.
+- **Past rulings account for most of the accuracy.** Given the same rulings, the untrained 8B gets close to the fine-tuned one on exact matches; the difference (+{{pairs.ft-v2-lean_vs_base-qwen3-8b-rag_unseen.exact.diff_pts}} points, 95% interval {{pairs.ft-v2-lean_vs_base-qwen3-8b-rag_unseen.exact.ci_text}}) sits inside the noise. There the fine-tune changes behaviour: every model gets the same prompt, which allows one question instead of a code, and on {{vague.vague_n}} vague listings the fine-tuned 8B asks {{vague.tuned_asked_vague}} times against {{vague.base_asked_vague}} for the untrained one (the 397B: {{vague.big_asked_vague}}). On {{vague.clear_n}} clear listings it asked {{vague.tuned_asked_clear}} times.
 - **The big model is better, and costs more.** Qwen3.5-397B with the same rulings gets {{runs.big.unseen.exact}}. Per answer it costs about {{live.ratio}} times as much at Tinker's prices (${{live.big_per_1k}} against ${{live.tuned_per_1k}} per 1,000).
 
 **One answer, or one question.** The page shows a code when it's confident: at least 4 of the 12 similar rulings used it and it doesn't contradict a material the seller named. That happened {{answer.conf}} times on the unseen set, and {{answer.conf_right}} matched CBP's ruling. When it isn't sure, it shows its best guess and asks "which of these is closest to your item?" with up to five codes in the schedule's own words; the right code was in that list {{answer.unsure_in_options}} times out of {{answer.unsure}}. Altogether the right code was on screen for {{answer.shown_right}} of {{sets.unseen_n}}.
@@ -66,11 +66,11 @@ Every model output is in `data/runs/`, and `pipeline/score.py` recomputes every 
 
 ## Cost
 
-Everything, from building the answer key to both fine-tunes and all the comparisons, came to about ${{cost.total_usd}} at Tinker's published prices (an upper bound; `data/ledger.json`). The fine-tuned model costs about ${{live.tuned_per_1k}} per 1,000 answers on the live page (the page also asks the untrained model, for the comparison panel).
+Everything, from building the answer key to both fine-tunes and all the comparisons, came to ${{billing.total_usd}} on Tinker's own usage report (`data/tinker_billing.json`). The fine-tuned model costs about ${{live.tuned_per_1k}} per 1,000 answers on the live page.
 
 ## Limits
 
-- An exact code on about a quarter of rulings won't replace a customs broker. The page says when it isn't sure; check a code before you ship anything valuable.
+- An exact code on about a quarter of rulings is no substitute for a customs broker. The page says when it isn't sure; check a code before you ship anything valuable.
 - The precedent library only holds rulings whose code still exists in today's schedule, so some old but relevant rulings are missing. That's why the model got my own wooden curtain poles wrong (it found rulings for metal and plastic rods); the material rules now catch it and lead with the right line.
 - US only, and only the classification: no landed-cost calculation, and no Section 232 or other additional duties.
 

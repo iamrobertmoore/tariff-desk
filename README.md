@@ -39,7 +39,7 @@ Every answer below is marked against one of **353 binding rulings US Customs iss
 What I take from it:
 
 - **Fine-tuning taught the 8B the job.** On its own it went from 0 to 30 exact codes (paired bootstrap over the 353 rulings: +8.5 points, 95% interval +5.7 to +11.6), and from 5 to 252 real codes.
-- **Past rulings account for most of the accuracy.** Given the same rulings, the untrained 8B gets close to the fine-tuned one on exact matches; the difference (+1.1 points, 95% interval -1.4 to +3.7) sits inside the noise. There, the fine-tune changes behaviour instead: it asks instead of guessing on 13 of 15 vague listings, where the untrained model, given the same rulings, asks on 0.
+- **Past rulings account for most of the accuracy.** Given the same rulings, the untrained 8B gets close to the fine-tuned one on exact matches; the difference (+1.1 points, 95% interval -1.4 to +3.7) sits inside the noise. There the fine-tune changes behaviour: every model gets the same prompt, which allows one question instead of a code, and on 60 vague listings the fine-tuned 8B asks 57 times against 3 for the untrained one (the 397B: 59). On 98 clear listings it asked 2 times.
 - **The big model is better, and costs more.** Qwen3.5-397B with the same rulings gets 117. Per answer it costs about 9 times as much at Tinker's prices ($1.98 against $0.23 per 1,000).
 
 **One answer, or one question.** The page shows a code when it's confident: at least 4 of the 12 similar rulings used it and it doesn't contradict a material the seller named. That happened 44 times on the unseen set, and 29 matched CBP's ruling. When it isn't sure, it shows its best guess and asks "which of these is closest to your item?" with up to five codes in the schedule's own words; the right code was in that list 113 times out of 309. Altogether the right code was on screen for 142 of 353.
@@ -66,11 +66,11 @@ Every model output is in `data/runs/`, and `pipeline/score.py` recomputes every 
 
 ## Cost
 
-Everything, from building the answer key to both fine-tunes and all the comparisons, came to about $14.7 at Tinker's published prices (an upper bound; `data/ledger.json`). The fine-tuned model costs about $0.23 per 1,000 answers on the live page (the page also asks the untrained model, for the comparison panel).
+Everything, from building the answer key to both fine-tunes and all the comparisons, came to $14.47 on Tinker's own usage report (`data/tinker_billing.json`). The fine-tuned model costs about $0.23 per 1,000 answers on the live page.
 
 ## Limits
 
-- An exact code on about a quarter of rulings won't replace a customs broker. The page says when it isn't sure; check a code before you ship anything valuable.
+- An exact code on about a quarter of rulings is no substitute for a customs broker. The page says when it isn't sure; check a code before you ship anything valuable.
 - The precedent library only holds rulings whose code still exists in today's schedule, so some old but relevant rulings are missing. That's why the model got my own wooden curtain poles wrong (it found rulings for metal and plastic rods); the material rules now catch it and lead with the right line.
 - US only, and only the classification: no landed-cost calculation, and no Section 232 or other additional duties.
 
