@@ -1,5 +1,5 @@
 name: keep the live page warm
-# Render's free instance sleeps after 15 minutes idle, which makes a judge wait ~50 s.
+# Render's free instance sleeps after 15 minutes idle, which makes a visitor wait ~50 s.
 # A health check every 10 minutes keeps it awake. It costs nothing: /healthz never calls the model.
 on:
   schedule:

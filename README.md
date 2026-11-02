@@ -86,4 +86,4 @@ The pipeline (`pipeline/`) rebuilds the answer key, the training data, both fine
 
 ## Credits
 
-Base model Qwen3-8B (Apache-2.0). Training questions from the public CROSS rulings dataset released with the ATLAS paper (arXiv:2509.18400). Rulings from U.S. Customs and Border Protection's CROSS database and the tariff schedule from the U.S. International Trade Commission (both public). Built for the DEV Hacktoberfest 2026 "Side Hustle" challenge. MIT licence.
+Base model Qwen3-8B (Apache-2.0). Training questions from the public CROSS rulings dataset released with the ATLAS paper (arXiv:2509.18400). Rulings from U.S. Customs and Border Protection's CROSS database and the tariff schedule from the U.S. International Trade Commission (both public). MIT licence.
